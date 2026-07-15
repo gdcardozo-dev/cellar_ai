@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app/app.dart';
+import 'package:cellar_ai/app/app.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(const CellarAIApp());
+  runApp(const CellarApp());
 }
