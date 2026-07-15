@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:cellar_ai/design/tokens/spacing.dart';
+import 'package:cellar_ai/shared/widgets/cellar_button.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -17,21 +20,29 @@ class HomePage extends StatelessWidget {
                   '🍷',
                   style: TextStyle(fontSize: 72),
                 ),
-                const SizedBox(height: 24),
+
+                SizedBox(height: CellarSpacing.lg),
+
                 Text(
                   'Cellar AI',
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                const SizedBox(height: 12),
+
+                SizedBox(height: CellarSpacing.sm),
+
                 Text(
                   'Seu assistente inteligente para amantes do vinho',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                const SizedBox(height: 40),
-                FilledButton(
-                  onPressed: () {},
-                  child: const Text('Minha Adega'),
+
+                SizedBox(height: CellarSpacing.xl),
+
+                CellarButton(
+                  label: 'Minha Adega',
+                  onPressed: () {
+                    debugPrint('Minha Adega');
+                  },
                 ),
               ],
             ),
