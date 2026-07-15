@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'home_page.dart';
-import 'theme.dart';
+import '/design/theme/light_theme.dart';
 
 class CellarAIApp extends StatelessWidget {
   const CellarAIApp({super.key});
@@ -11,7 +11,7 @@ class CellarAIApp extends StatelessWidget {
     return MaterialApp(
       title: 'Cellar AI',
       debugShowCheckedModeBanner: false,
-      theme: CellarTheme.light(),
+      theme: CellarLightTheme.theme,
       home: const HomePage(),
     );
   }
