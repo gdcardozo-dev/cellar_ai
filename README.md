@@ -15,3 +15,30 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+# 🍷 Cellar AI
+
+Cellar AI é um assistente inteligente para amantes do vinho.
+
+O projeto tem como objetivo ajudar usuários a organizar suas adegas, registrar degustações, descobrir novos rótulos e tomar melhores decisões sobre vinho utilizando Inteligência Artificial.
+
+## Status
+
+🚧 Em desenvolvimento
+
+## Tecnologias
+
+* Flutter
+* Firebase
+* Dart
+* GitHub
+* GitHub Copilot
+* OpenAI (futuramente)
+
+## Documentação
+
+A documentação do projeto está disponível na pasta `/docs`.
+
+## Licença
+
+Definiremos a licença quando o MVP estiver concluído.
