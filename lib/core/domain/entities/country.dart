@@ -1,13 +1,13 @@
 import '../foundation/entity.dart';
 import '../value_objects/entity_id.dart';
 
-class Producer extends Entity {
-  Producer({
+class Country extends Entity {
+  Country({
     required super.id,
     required String name,
   }) : _name = name.trim() {
     if (_name.isEmpty) {
-      throw ArgumentError('O nome do produtor não pode ser vazio.');
+      throw ArgumentError('O nome do país não pode ser vazio.');
     }
   }
 
@@ -15,8 +15,8 @@ class Producer extends Entity {
 
   String get name => _name;
 
-  Producer rename(String newName) {
-    return Producer(
+  Country rename(String newName) {
+    return Country(
       id: id,
       name: newName,
     );
