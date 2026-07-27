@@ -1,16 +1,14 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import '../value_objects/entity_id.dart';
 
 /// Classe base para todas as entidades do domínio.
 ///
-/// Em Domain-Driven Design, uma entidade é definida por sua identidade,
-/// não apenas pelos seus atributos.
+/// Em Domain-Driven Design, entidades são comparadas por identidade.
 abstract class Entity {
   const Entity({
     required this.id,
   });
 
-  /// Identificador único da entidade.
-  final String id;
+  final EntityId id;
 
   @override
   bool operator ==(Object other) =>
