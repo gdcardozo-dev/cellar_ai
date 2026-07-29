@@ -8,15 +8,9 @@ import '../entities/grape.dart';
 /// - Merlot 20%
 /// - Cabernet Franc 10%
 class GrapeComposition {
-  GrapeComposition({
-    required this.grape,
-    this.percentage,
-  }) {
-    if (percentage != null &&
-        (percentage! < 0 || percentage! > 100)) {
-      throw ArgumentError(
-        'O percentual deve estar entre 0 e 100.',
-      );
+  GrapeComposition({required this.grape, this.percentage}) {
+    if (percentage != null && (percentage! < 0 || percentage! > 100)) {
+      throw ArgumentError('O percentual deve estar entre 0 e 100.');
     }
   }
 

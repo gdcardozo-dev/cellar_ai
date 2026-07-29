@@ -35,8 +35,7 @@ class HomePage extends StatelessWidget {
                 context,
                 icon: Icons.wine_bar,
                 title: 'Sua Adega',
-                subtitle:
-                    'Sua adega está esperando sua primeira história.',
+                subtitle: 'Sua adega está esperando sua primeira história.',
               ),
 
               SizedBox(height: CellarSpacing.lg),
@@ -55,8 +54,7 @@ class HomePage extends StatelessWidget {
                 context,
                 icon: Icons.menu_book,
                 title: 'Última História',
-                subtitle:
-                    'Suas melhores lembranças com vinho aparecerão aqui.',
+                subtitle: 'Suas melhores lembranças com vinho aparecerão aqui.',
               ),
 
               SizedBox(height: CellarSpacing.xxl),
@@ -94,10 +92,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  Text(title, style: Theme.of(context).textTheme.titleLarge),
 
                   const SizedBox(height: 8),
 

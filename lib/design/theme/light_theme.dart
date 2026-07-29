@@ -33,9 +33,7 @@ abstract final class CellarLightTheme {
         backgroundColor: CellarColors.primary,
         foregroundColor: Colors.white,
         minimumSize: const Size.fromHeight(52),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     ),
   );
