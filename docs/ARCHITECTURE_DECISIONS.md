@@ -16,6 +16,15 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-010 | Adiada | WineVariant e WineLabel como abstrações separadas | Evitar antecipação de complexidade. |
 | ADR-011 | Aprovada | Refinar Domain Blueprint antes de implementar Wine e Story | Reduzir retrabalho. |
 | ADR-012 | Em aberto | Modelo de garrafas, lotes, Story-Wine e demais agregados | Exige sessão de modelagem. |
+| ADR-013 | Aprovada | Hierarquia de documentação: fontes oficiais e histórico | Detalhada abaixo. Aprovada em 19/10/2026. |
+
+## ADR-013 — Hierarquia de documentação
+
+- **Status:** Aprovada em 19/10/2026.
+- **Contexto:** documentos anteriores (`VISION.md`, `DOMAIN_MAP.md`, `DOMAIN_MODEL.md`, `WINE_DOMAIN_MODEL.md`) contradiziam a ADR-001 e o Domain Blueprint, apresentando como decididos pontos ainda em aberto.
+- **Decisão:** `DOMAIN_BLUEPRINT.md` é a fonte oficial do domínio; este registro é a fonte oficial das decisões; `VISION.md` contém somente a visão aprovada. Os rascunhos anteriores foram movidos para `docs/historico/`, com aviso no topo, e servem apenas como referência.
+- **Alternativas consideradas:** apagar os rascunhos (perderia ideias úteis); atualizá-los todos (duplicaria conteúdo e manteria várias fontes).
+- **Consequências:** ideias dos rascunhos voltam ao Blueprint somente como propostas, discutidas decisão a decisão. O histórico dos arquivos foi preservado com `git mv`.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

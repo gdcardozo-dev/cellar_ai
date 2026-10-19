@@ -1,3 +1,7 @@
+> **DOCUMENTO HISTÓRICO — não é fonte oficial.**
+> Preservado apenas como referência (ADR-013). Pode conter ideias superadas ou não validadas.
+> Fontes oficiais: `docs/DOMAIN_BLUEPRINT.md` (domínio), `docs/ARCHITECTURE_DECISIONS.md` (decisões) e `docs/VISION.md` (visão).
+
 # Cellar AI - Domain Map
 
 ## Visão
