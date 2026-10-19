@@ -44,10 +44,10 @@ Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `
 - **Agrupamento por rótulo:** "todas as safras de um vinho" é calculado a partir de Produtor + Nome comercial. Não há classe `WineLabel` (ADR-010 continua adiada).
 - **Catálogo privado no MVP:** cada usuário mantém seu próprio catálogo. O modelo não deve impedir um catálogo compartilhado no futuro.
 
-### Questões derivadas — EM ABERTO
-- **Comparação de nomes:** regra para detectar duplicatas ("Catena Alta" × "catena alta" × "Catena  Alta"), considerando maiúsculas, acentos e espaços.
-- **Completar safra desconhecida:** atualizar o registro existente ou associar a experiência a outro Wine com o ano correto? Depende da Decisão 2 (a que uma Story se refere).
-- **Produtor desconhecido:** como registrar um "vinho da casa" em restaurante, cujo produtor o usuário não sabe? Produtor é obrigatório na identidade.
+### Regras complementares — APROVADAS (ADR-014)
+- **Comparação de nomes:** para fins de identidade, a comparação ignora maiúsculas/minúsculas, acentos e espaços extras ("Château Margaux" = "chateau  margaux"). O nome é exibido como o usuário digitou.
+- **Completar safra desconhecida:** atualiza-se o **registro da experiência**, não o Wine compartilhado. A experiência passa a referenciar o Wine com o ano correto (criado se ainda não existir). O Wine com safra desconhecida permanece para as demais experiências que o referenciam. Motivo: atualizar o Wine compartilhado alteraria outras lembranças por tabela, violando o princípio de não inventar lembranças.
+- **Produtor desconhecido:** representado por um produtor "Produtor Desconhecido". Para evitar que vinhos distintos se confundam (ex.: vinhos da casa de restaurantes diferentes), o nome comercial deve ser descritivo, como "Tinto da casa — Fasano"; a interface pode sugerir o nome do local.
 
 ## 6. Decisões de modelagem discutidas
 - Separar nome comercial do vinho de Producer.

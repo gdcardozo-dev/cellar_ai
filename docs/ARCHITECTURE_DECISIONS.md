@@ -40,7 +40,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - `PackageSize` não pertence a Wine, e sim à unidade física.
   - O agrupamento de todas as safras de um rótulo é calculado por Produtor + Nome, sem classe `WineLabel`.
 - **Alternativas consideradas:** (B) safra fora da identidade, registrada na garrafa ou na história — misturaria avaliações de safras diferentes; (C) dois níveis Rótulo → Safra — mais fiel, porém adiado pela ADR-010.
-- **Consequências:** o Value Object `Vintage` precisará representar os três estados; o `Wine` atual (protótipo) deixa de conter preço, quantidade e data de compra. Ficam em aberto a regra de comparação de nomes, o processo de completar safra desconhecida e o tratamento de produtor desconhecido (ver Blueprint, seção 5.1).
+- **Consequências:** o Value Object `Vintage` precisará representar os três estados; o `Wine` atual (protótipo) deixa de conter preço, quantidade e data de compra. Regras complementares aprovadas em 19/10/2026 (ver Blueprint, seção 5.1): comparação de nomes ignora maiúsculas, acentos e espaços extras; ao completar uma safra desconhecida, atualiza-se a referência da experiência, não o Wine compartilhado; produtor desconhecido é representado por "Produtor Desconhecido", com nome comercial descritivo.
 
 ## ADR-015 — Catálogo privado por usuário no MVP
 
