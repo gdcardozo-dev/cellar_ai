@@ -5,13 +5,13 @@ Produto orientado a experiências e memórias com vinho. O valor central está e
 
 ## 2. Linguagem ubíqua — PROPOSTA
 - **Story:** registro de uma experiência significativa relacionada a vinho.
-- **Wine:** descrição de um vinho no catálogo, independente de posse.
+- **Wine:** descrição de um vinho no catálogo, independente de posse. Identificado por Produtor + Nome comercial + Safra (APROVADO — ver seção 5.1).
 - **Bottle / OwnedBottle:** representação de posse de vinho; granularidade ainda em discussão.
 - **Producer:** produtor do vinho.
 - **Grape:** variedade de uva.
 - **Region:** região geográfica, potencialmente hierárquica.
-- **Vintage:** safra, opcional para vinhos sem safra declarada.
-- **Package:** tipo de embalagem e volume; modelagem final pendente.
+- **Vintage:** safra, com três estados: ano, sem safra declarada (NV) ou desconhecida (APROVADO — ver seção 5.1).
+- **Package:** tipo de embalagem e volume; modelagem final pendente. Não faz parte da identidade de Wine (APROVADO).
 - **GrapeComposition:** composição de uma ou mais uvas com percentuais opcionais.
 
 ## 3. Bounded contexts — HIPÓTESE
@@ -32,9 +32,26 @@ Entidades de catálogo discutidas: `Wine`, `Producer`, `Country`, `Region`, `Gra
 Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `Quantity`, `GrapeComposition`.
 `Wine` e `Story` atuais são protótipos; não promover campos atuais a contrato final.
 
+## 5.1 Identidade de Wine — APROVADA (ADR-014, ADR-015)
+- **Identidade:** dois registros representam o mesmo Wine quando têm o mesmo **Produtor + Nome comercial + Safra**.
+- **Safra faz parte da identidade:** Catena Alta Malbec 2021 e 2022 são Wines diferentes.
+- **Três estados de safra:**
+  - **Ano** (ex.: 2022): fato sobre o vinho.
+  - **NV — sem safra declarada** (ex.: muitos espumantes): fato sobre o vinho.
+  - **Desconhecida:** o vinho tem safra, mas o usuário não a registrou. É falta de informação, não fato; pode ser completada depois. A IA nunca deve presumir um ano.
+- **Características, não identidade:** país, região, uvas, teor alcoólico e estilo. Corrigi-las não transforma o vinho em outro.
+- **Tamanho da embalagem fora do Wine:** `PackageSize` pertence à unidade física (garrafa), não ao catálogo.
+- **Agrupamento por rótulo:** "todas as safras de um vinho" é calculado a partir de Produtor + Nome comercial. Não há classe `WineLabel` (ADR-010 continua adiada).
+- **Catálogo privado no MVP:** cada usuário mantém seu próprio catálogo. O modelo não deve impedir um catálogo compartilhado no futuro.
+
+### Questões derivadas — EM ABERTO
+- **Comparação de nomes:** regra para detectar duplicatas ("Catena Alta" × "catena alta" × "Catena  Alta"), considerando maiúsculas, acentos e espaços.
+- **Completar safra desconhecida:** atualizar o registro existente ou associar a experiência a outro Wine com o ano correto? Depende da Decisão 2 (a que uma Story se refere).
+- **Produtor desconhecido:** como registrar um "vinho da casa" em restaurante, cujo produtor o usuário não sabe? Produtor é obrigatório na identidade.
+
 ## 6. Decisões de modelagem discutidas
 - Separar nome comercial do vinho de Producer.
-- Vintage opcional para NV e categorias semelhantes.
+- Vintage com três estados (ano, NV, desconhecida) — substitui "Vintage opcional" (ADR-014).
 - Separar dados de catálogo de dados de compra/estoque.
 - Preferir uvas estruturadas a lista de strings; blends podem ter múltiplas uvas e percentuais desconhecidos.
 - Região pode ter hierarquia por `parentRegion` (proposta).

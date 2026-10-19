@@ -10,7 +10,7 @@
 - [x] Passo 0 — organização da documentação (ADR-013)
 
 ### Próximas decisões do Domain Blueprint
-- [ ] Decisão 1 — Identidade de `Wine` (rótulo, safra, NV × safra desconhecida)
+- [x] Decisão 1 — Identidade de `Wine` (ADR-014) e catálogo privado no MVP (ADR-015)
 - [ ] Decisão 2 — A que uma `Story` se refere (vinho de catálogo, garrafa física, "vinho bebido")
 - [ ] Decisão 3 — Limites de agregados e bounded contexts
 - [ ] Decisão 4 — Padrão de validação dos Value Objects (`assert` × exceção) e `Money` em centavos
