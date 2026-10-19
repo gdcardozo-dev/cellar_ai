@@ -11,6 +11,7 @@ Cellar AI é um companheiro inteligente para preservar, conectar e redescobrir e
 - Diferencie explicitamente decisões aprovadas, propostas e questões em aberto.
 - Trabalhe incrementalmente: discuta modelo, obtenha aprovação, implemente, formate, analise e teste.
 - Não execute grandes refatorações, mudanças de dependências, exclusões ou commits sem aprovação.
+- Exceção (aprovada em 19/10/2026): commits que apenas documentam decisões já aprovadas pelo responsável (Blueprint, ADRs, Backlog) podem ser feitos e enviados à `develop` sem nova aprovação; informe-os em seguida. Código, dependências e exclusões continuam exigindo aprovação prévia.
 - Trabalhe preferencialmente na branch `develop`; confirme branch e status do Git antes de alterações.
 - Use linguagem clara em português, evitando jargão desnecessário; explique comandos passo a passo.
 - Domínio independente de Flutter, Firebase, persistência e serialização.

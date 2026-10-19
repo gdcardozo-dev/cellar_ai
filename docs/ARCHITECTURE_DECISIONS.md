@@ -20,6 +20,8 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-014 | Aprovada | Identidade de Wine: Produtor + Nome comercial + Safra (ano, NV ou desconhecida) | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-015 | Aprovada | Catálogo de vinhos privado por usuário no MVP | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-016 | Aprovada | Story referencia vinhos por StoryWine; notas do momento e do vinho; ao menos um vinho por Story | Detalhada abaixo. Aprovada em 19/10/2026. |
+| ADR-017 | Aprovada | Person e Place como entidades; fotos e pratos como Value Objects; notas de 1 a 5 | Detalhada abaixo. Aprovada em 19/10/2026. |
+| ADR-018 | Aprovada | Commits de documentação de decisões aprovadas dispensam nova aprovação | Registrada no `CLAUDE.md`. Aprovada em 19/10/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -62,6 +64,20 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - Invariante: toda Story tem ao menos um `StoryWine`.
 - **Alternativas consideradas:** (A) lista de Wines — não identifica a garrafa nem guarda impressão por vinho; (B) lista de garrafas — exigiria garrafas fictícias para restaurantes e presentes.
 - **Consequências:** o protótipo `Story` (com `wineIds` e `rating`) será substituído. Ficam em aberto pessoas, lugares, fotos e pratos; o efeito da Story sobre a adega (Decisão 3); e a escala das notas.
+
+## ADR-017 — Pessoas, lugares, fotos, pratos e notas
+
+- **Status:** Aprovada em 19/10/2026.
+- **Contexto:** o protótipo de `Story` guardava pessoas, local, fotos e pratos como textos soltos, o que impede a IA de reconhecer a mesma pessoa ou o mesmo lugar em histórias diferentes.
+- **Decisão:**
+  - Critério: o que precisa ser reconhecido em várias histórias tem identidade (entidade); o resto é detalhe da história (Value Object).
+  - `Person` e `Place` são entidades com cadastro próprio e privado; a Story as referencia pelo id.
+  - Fotos são Value Objects dentro da Story.
+  - Pratos são Value Objects dentro do `StoryWine`, representando a harmonização com aquele vinho.
+  - Notas de 1 a 5, inteiras, opcionais na Story e no `StoryWine`.
+  - Dados de `Person` e `Place` são privados do usuário e usados apenas em respostas para ele.
+- **Alternativas consideradas:** textos soltos na Story (protótipo) — sem identidade, não respondem perguntas de recorrência; pratos na Story — não indicam com qual vinho harmonizaram; escalas de 100 pontos ou com meio ponto — mais jargão e complexidade.
+- **Consequências:** surgem cadastros privados de pessoas e lugares; o limite formal de agregado de `Person` e `Place` será confirmado na Decisão 3.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

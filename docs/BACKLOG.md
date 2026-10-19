@@ -12,7 +12,7 @@
 ### Próximas decisões do Domain Blueprint
 - [x] Decisão 1 — Identidade de `Wine` (ADR-014) e catálogo privado no MVP (ADR-015)
 - [x] Decisão 2 — A que uma `Story` se refere: `StoryWine` (ADR-016)
-- [ ] Decisão 2.1 — Pessoas, lugares, fotos e pratos na Story; escala das notas
+- [x] Decisão 2.1 — Pessoas, lugares, fotos, pratos e escala das notas (ADR-017)
 - [ ] Decisão 3 — Limites de agregados e bounded contexts
 - [ ] Decisão 4 — Padrão de validação dos Value Objects (`assert` × exceção) e `Money` em centavos
 

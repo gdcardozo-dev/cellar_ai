@@ -6,6 +6,8 @@ Produto orientado a experiências e memórias com vinho. O valor central está e
 ## 2. Linguagem ubíqua — PROPOSTA
 - **Story:** registro de uma experiência significativa relacionada a vinho. Contém ao menos um StoryWine (APROVADO — ver seção 7).
 - **StoryWine ("vinho da história"):** a participação de um Wine em uma Story, com a impressão do usuário sobre aquele vinho naquele momento (APROVADO — ver seção 7).
+- **Person:** pessoa com quem o usuário compartilhou uma experiência; cadastro privado (APROVADO — ver seção 7.2).
+- **Place:** local de uma experiência (restaurante, casa, vinícola, cidade); cadastro privado (APROVADO — ver seção 7.2).
 - **Wine:** descrição de um vinho no catálogo, independente de posse. Identificado por Produtor + Nome comercial + Safra (APROVADO — ver seção 5.1).
 - **Bottle / OwnedBottle:** representação de posse de vinho; granularidade ainda em discussão.
 - **Producer:** produtor do vinho.
@@ -80,10 +82,22 @@ Cenários atendidos:
 
 **Completar safra desconhecida:** troca-se o Wine referenciado pelo StoryWine daquela Story (seção 5.1).
 
-### 7.2 Demais relacionamentos — EM ABERTO
-- Pessoas, lugares, fotos e pratos: Value Objects, entidades ou referências externas.
+### 7.2 Pessoas, lugares, fotos, pratos e notas — APROVADO (ADR-017)
+Critério: se a IA precisa reconhecer a mesma coisa em várias histórias, ela tem identidade (entidade); se não, é detalhe da história (Value Object).
+
+| Conceito | Tipo | Onde vive | Pergunta que atende |
+|---|---|---|---|
+| **Person** | Entidade, com cadastro próprio e privado do usuário | Story referencia pelo id | "Com quem mais compartilho vinho?" |
+| **Place** | Entidade, com cadastro próprio e privado do usuário | Story referencia pelo id | "Qual restaurante mais aparece nas minhas histórias?" |
+| **Foto** | Value Object | Dentro da Story | — |
+| **Prato** | Value Object | Dentro do **StoryWine** (harmonização daquele vinho) | "Qual foi a melhor harmonização que já fiz?" |
+
+- **Notas:** escala de **1 a 5, inteiros**, exibidas como estrelas; opcionais tanto na Story (momento) quanto no StoryWine (vinho).
+- **Privacidade:** dados de Person e Place (inclusive de terceiros) são privados do usuário e usados apenas em respostas para ele próprio.
+- Os limites formais de agregado de Person e Place serão confirmados na Decisão 3.
+
+### 7.3 Demais relacionamentos — EM ABERTO
 - Efeito de uma Story sobre a adega (abrir uma garrafa reduz a disponibilidade): depende dos limites de agregados (Decisão 3).
-- Escala das notas (ex.: 1 a 5) e se meio ponto é permitido.
 
 ## 8. Eventos de domínio — EXEMPLOS, NÃO IMPLEMENTADOS
 `StoryCreated`, `StoryRated`, `BottleAdded`, `BottleConsumed`, `WineReviewed`.
