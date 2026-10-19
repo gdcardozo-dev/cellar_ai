@@ -10,7 +10,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-004 | Direção adotada | Domain-Driven Design com `EntityId`, `Entity`, `AggregateRoot` | Classes revisadas; manter domínio sem dependência de Flutter e banco. |
 | ADR-005 | Direção adotada | `EntityId` implementado manualmente; arquivo Freezed órfão removido | Analyzer passou a zero erros e quatro warnings. |
 | ADR-006 | Direção adotada | Separar catálogo mundial e posse pessoal | Preço, compra e quantidade não pertencem à descrição global de Wine. |
-| ADR-007 | Proposta | Story como Aggregate Root das experiências | Definir invariantes; centralidade de produto não implica único agregado. |
+| ADR-007 | Proposta | Story como Aggregate Root das experiências | Definir invariantes; centralidade de produto não implica único agregado. Parcialmente confirmada pela ADR-016 (StoryWine pertence ao agregado Story). |
 | ADR-008 | Proposta | Bounded contexts Catalog, Cellar, Stories, Sommelier AI, User Profile | Fronteiras ainda não validadas. |
 | ADR-009 | Direção adotada | Safra opcional; blends com múltiplas uvas; PackageSize somente volume | Suporte a vinhos e embalagens variados. "Safra opcional" refinada pela ADR-014. |
 | ADR-010 | Adiada | WineVariant e WineLabel como abstrações separadas | Evitar antecipação de complexidade. |
@@ -19,6 +19,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-013 | Aprovada | Hierarquia de documentação: fontes oficiais e histórico | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-014 | Aprovada | Identidade de Wine: Produtor + Nome comercial + Safra (ano, NV ou desconhecida) | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-015 | Aprovada | Catálogo de vinhos privado por usuário no MVP | Detalhada abaixo. Aprovada em 19/10/2026. |
+| ADR-016 | Aprovada | Story referencia vinhos por StoryWine; notas do momento e do vinho; ao menos um vinho por Story | Detalhada abaixo. Aprovada em 19/10/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -49,6 +50,18 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 - **Decisão:** no MVP, cada usuário mantém seu próprio catálogo de vinhos.
 - **Alternativas consideradas:** catálogo compartilhado desde o início — mais rico, mas exige deduplicação entre usuários, moderação e maior custo de infraestrutura.
 - **Consequências:** a deduplicação fica restrita ao catálogo de cada usuário. O modelo de domínio não deve impedir a evolução para um catálogo compartilhado.
+
+## ADR-016 — Story referencia vinhos por StoryWine
+
+- **Status:** Aprovada em 19/10/2026.
+- **Contexto:** o protótipo de `Story` guardava apenas uma lista de ids de vinho. Era preciso suportar experiências em casa (garrafa da adega), em restaurantes, com presentes abertos na hora e em degustações com vários vinhos.
+- **Decisão:**
+  - A Story contém uma lista de `StoryWine` ("vinho da história"), parte do agregado Story.
+  - Cada `StoryWine` referencia um Wine (obrigatório), opcionalmente a garrafa da adega de onde veio, e opcionalmente a impressão do usuário (nota e comentário).
+  - A Story tem nota opcional do momento; cada `StoryWine` tem nota opcional do vinho.
+  - Invariante: toda Story tem ao menos um `StoryWine`.
+- **Alternativas consideradas:** (A) lista de Wines — não identifica a garrafa nem guarda impressão por vinho; (B) lista de garrafas — exigiria garrafas fictícias para restaurantes e presentes.
+- **Consequências:** o protótipo `Story` (com `wineIds` e `rating`) será substituído. Ficam em aberto pessoas, lugares, fotos e pratos; o efeito da Story sobre a adega (Decisão 3); e a escala das notas.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

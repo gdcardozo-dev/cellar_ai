@@ -4,7 +4,8 @@
 Produto orientado a experiências e memórias com vinho. O valor central está em preservar, conectar e redescobrir momentos, pessoas, lugares e vinhos. O controle da adega é uma capacidade complementar, não a identidade principal.
 
 ## 2. Linguagem ubíqua — PROPOSTA
-- **Story:** registro de uma experiência significativa relacionada a vinho.
+- **Story:** registro de uma experiência significativa relacionada a vinho. Contém ao menos um StoryWine (APROVADO — ver seção 7).
+- **StoryWine ("vinho da história"):** a participação de um Wine em uma Story, com a impressão do usuário sobre aquele vinho naquele momento (APROVADO — ver seção 7).
 - **Wine:** descrição de um vinho no catálogo, independente de posse. Identificado por Produtor + Nome comercial + Safra (APROVADO — ver seção 5.1).
 - **Bottle / OwnedBottle:** representação de posse de vinho; granularidade ainda em discussão.
 - **Producer:** produtor do vinho.
@@ -24,6 +25,7 @@ Esses limites são sugestões, não uma estrutura de pastas já aprovada.
 
 ## 4. Aggregates — PENDENTE
 `Story` é candidata natural a Aggregate Root de experiências. Isso **não** obriga toda informação relacionada a pessoas, fotos ou vinhos a pertencer ao agregado. Definir invariantes e ciclo de vida antes de decidir.
+**APROVADO (ADR-016):** `StoryWine` pertence ao agregado `Story` e só é criado ou alterado por meio dela. Os demais limites (pessoas, lugares, fotos, pratos, garrafas) seguem pendentes.
 `Wine`, `Collection`, `Purchase` e `OwnedBottle` exigem avaliação específica.
 
 ## 5. Entidades e Value Objects — PARCIALMENTE DEFINIDOS
@@ -58,8 +60,30 @@ Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `
 - PackageSize expressa volume, não tipo de embalagem.
 - WineVariant e WineLabel foram explorados, mas adiados.
 
-## 7. Relacionamentos — EM ABERTO
-Story pode associar múltiplos vinhos e informações de contexto. Não presumir que cada vinho consumido veio da adega pessoal. Considerar experiências em restaurantes, presentes, degustações e compras não cadastradas.
+## 7. Relacionamentos — PARCIALMENTE APROVADOS
+
+### 7.1 Story → vinhos — APROVADO (ADR-016)
+A Story referencia vinhos por meio de uma lista de **StoryWine**. Cada StoryWine contém:
+- **Wine** (obrigatório): referência ao vinho do catálogo.
+- **Garrafa da adega** (opcional): preenchida somente quando o vinho veio da adega pessoal do usuário.
+- **Impressão do usuário** (opcional): nota e comentário sobre aquele vinho naquele momento.
+
+Cenários atendidos:
+- **Em casa:** Wine + garrafa da adega.
+- **Restaurante ou presente aberto na hora:** somente Wine; não se presume que o vinho veio da adega.
+- **Degustação:** vários StoryWine, cada um com sua impressão.
+
+**Avaliações:** a Story tem nota opcional **do momento**; cada StoryWine tem nota opcional **do vinho**. São independentes: um vinho mediano pode estar em uma noite inesquecível.
+
+**Invariantes da Story:**
+1. Uma Story tem **pelo menos um StoryWine**. Vinhos não identificados usam as regras da seção 5.1 (produtor e/ou safra desconhecidos).
+
+**Completar safra desconhecida:** troca-se o Wine referenciado pelo StoryWine daquela Story (seção 5.1).
+
+### 7.2 Demais relacionamentos — EM ABERTO
+- Pessoas, lugares, fotos e pratos: Value Objects, entidades ou referências externas.
+- Efeito de uma Story sobre a adega (abrir uma garrafa reduz a disponibilidade): depende dos limites de agregados (Decisão 3).
+- Escala das notas (ex.: 1 a 5) e se meio ponto é permitido.
 
 ## 8. Eventos de domínio — EXEMPLOS, NÃO IMPLEMENTADOS
 `StoryCreated`, `StoryRated`, `BottleAdded`, `BottleConsumed`, `WineReviewed`.
