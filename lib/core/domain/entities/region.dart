@@ -1,3 +1,4 @@
+import '../foundation/domain_exception.dart';
 import '../foundation/entity.dart';
 import 'country.dart';
 
@@ -5,7 +6,7 @@ class Region extends Entity {
   Region({required super.id, required this.country, required String name})
     : _name = name.trim() {
     if (_name.isEmpty) {
-      throw ArgumentError('O nome da região não pode ser vazio.');
+      throw const DomainException('O nome da região não pode ser vazio.');
     }
   }
 

@@ -1,4 +1,5 @@
 import '../entities/grape.dart';
+import '../foundation/domain_exception.dart';
 
 /// Representa a participação de uma uva na composição de um vinho.
 ///
@@ -10,7 +11,7 @@ import '../entities/grape.dart';
 class GrapeComposition {
   GrapeComposition({required this.grape, this.percentage}) {
     if (percentage != null && (percentage! < 0 || percentage! > 100)) {
-      throw ArgumentError('O percentual deve estar entre 0 e 100.');
+      throw const DomainException('O percentual deve estar entre 0 e 100.');
     }
   }
 

@@ -1,5 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'package:cellar_ai/core/domain/foundation/domain_exception.dart';
 import 'package:cellar_ai/core/domain/value_objects/package_size.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('PackageSize', () {
@@ -15,19 +16,24 @@ void main() {
     });
 
     test('objetos com mesmo volume devem ser iguais', () {
-      expect(const PackageSize(750), equals(const PackageSize(750)));
+      expect(PackageSize(750), equals(PackageSize(750)));
     });
 
     test('objetos com volumes diferentes devem ser diferentes', () {
-      expect(const PackageSize(750), isNot(equals(const PackageSize(1500))));
+      expect(PackageSize(750), isNot(equals(PackageSize(1500))));
     });
 
     test('deve formatar corretamente em ml', () {
-      expect(const PackageSize(750).toString(), '750 ml');
+      expect(PackageSize(750).toString(), '750 ml');
     });
 
     test('deve formatar corretamente em litros', () {
-      expect(const PackageSize(1500).toString(), '1.5 L');
+      expect(PackageSize(1500).toString(), '1.5 L');
+    });
+
+    test('deve recusar volume zero ou negativo', () {
+      expect(() => PackageSize(0), throwsA(isA<DomainException>()));
+      expect(() => PackageSize(-750), throwsA(isA<DomainException>()));
     });
   });
 }

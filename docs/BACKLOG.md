@@ -22,7 +22,7 @@
 
 ### Implementação do domínio (ADR-014 a ADR-020)
 - [x] Passo 1 — `DomainException` e `Vintage` como sealed class, com testes
-- [ ] Demais Value Objects: `Money` (centavos + moeda), `Quantity`, `AlcoholContent`, `PackageSize` com `DomainException`
+- [x] Passo 2 — `Money` (centavos + moeda), `Quantity`, `AlcoholContent`, `PackageSize` e entidades de catálogo com `DomainException`, com testes
 - [ ] `Region` e `GrapeComposition` passam a guardar apenas ids
 - [ ] Novo `Wine` (identidade Produtor + Nome + Safra)
 - [ ] `Story`, `StoryWine`, `Person`, `Place`
@@ -30,8 +30,6 @@
 
 ## Pendências técnicas identificadas (aguardando decisão)
 - Flutter 3.47+ marca `package:flutter/material.dart` como obsoleto em favor do pacote `material_ui`; avaliar migração junto com a atualização da versão do Flutter (CI fixada em 3.44.6)
-- `Quantity`, `AlcoholContent` e `PackageSize` ainda validam com `assert`, que não roda em builds de release
-- `Money` usa `double` para valores monetários
 - Dependências Freezed/JSON no `pubspec.yaml` sem uso no código
 - `lib/app/theme.dart` e `lib/design/typography.dart` não são utilizados
 - Comentário em `aggregate_root.dart` apresenta propostas (ADR-007) como fatos

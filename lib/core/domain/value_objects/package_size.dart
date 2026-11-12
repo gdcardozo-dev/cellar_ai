@@ -1,3 +1,5 @@
+import '../foundation/domain_exception.dart';
+
 /// Representa o volume de uma embalagem em mililitros.
 ///
 /// Exemplos:
@@ -9,9 +11,13 @@
 /// Não possui conhecimento sobre o tipo de embalagem
 /// (garrafa, lata, bag-in-box etc.).
 final class PackageSize {
-  const PackageSize(int milliliters)
-    : assert(milliliters > 0, 'Package size must be greater than zero.'),
-      _milliliters = milliliters;
+  PackageSize(int milliliters) : _milliliters = milliliters {
+    if (milliliters <= 0) {
+      throw DomainException(
+        'O volume deve ser maior que zero. Valor informado: $milliliters ml.',
+      );
+    }
+  }
 
   final int _milliliters;
 
@@ -44,5 +50,5 @@ final class PackageSize {
     return '$_milliliters ml';
   }
 
-  static const standard = PackageSize(750);
+  static final standard = PackageSize(750);
 }

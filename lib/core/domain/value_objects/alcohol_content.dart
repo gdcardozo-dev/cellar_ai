@@ -1,8 +1,17 @@
-class AlcoholContent {
-  final double percentage;
+import '../foundation/domain_exception.dart';
 
-  const AlcoholContent(this.percentage)
-    : assert(percentage >= 0 && percentage <= 100);
+/// Teor alcoólico em percentual (0 a 100).
+final class AlcoholContent {
+  AlcoholContent(this.percentage) {
+    if (percentage < 0 || percentage > 100) {
+      throw DomainException(
+        'O teor alcoólico deve estar entre 0% e 100%. '
+        'Valor informado: $percentage%.',
+      );
+    }
+  }
+
+  final double percentage;
 
   @override
   String toString() => '${percentage.toStringAsFixed(1)}%';

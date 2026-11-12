@@ -1,9 +1,10 @@
+import '../foundation/domain_exception.dart';
 import '../foundation/entity.dart';
 
 class Producer extends Entity {
   Producer({required super.id, required String name}) : _name = name.trim() {
     if (_name.isEmpty) {
-      throw ArgumentError('O nome do produtor não pode ser vazio.');
+      throw const DomainException('O nome do produtor não pode ser vazio.');
     }
   }
 
