@@ -23,6 +23,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-017 | Aprovada | Person e Place como entidades; fotos e pratos como Value Objects; notas de 1 a 5 | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-018 | Aprovada | Commits de documentação de decisões aprovadas dispensam nova aprovação | Registrada no `CLAUDE.md`. Aprovada em 19/10/2026. |
 | ADR-019 | Aprovada | Limites de agregados, CellarLot e consumo sempre com Story | Detalhada abaixo. Aprovada em 12/11/2026. |
+| ADR-020 | Aprovada | Padrões técnicos: DomainException, Money em centavos com moeda, Vintage como sealed class | Detalhada abaixo. Aprovada em 12/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -93,6 +94,17 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - No MVP, o caso de uso "Registrar história" coordena a criação da Story e a baixa no lote; eventos de domínio ficam para depois.
 - **Alternativas consideradas:** (A) um registro por garrafa — preciso, porém trabalhoso; (C) compra com itens — mais complexo e não representa presentes; consumo sem Story — permitiria perder lembranças; eventos de domínio já no MVP — complexidade prematura.
 - **Consequências:** o código de `Region` e `GrapeComposition` precisa ser ajustado; o protótipo `Wine` perde os campos de compra, que passam ao `CellarLot`; a localização física de garrafas na adega fica fora do MVP.
+
+## ADR-020 — Padrões técnicos do domínio
+
+- **Status:** Aprovada em 12/11/2026.
+- **Contexto:** o código misturava `assert` (inativo em release) e `ArgumentError` para validação; `Money` usava `double`; `Vintage` usava `null` para dois significados diferentes.
+- **Decisão:**
+  - Validação por exceção de domínio própria (`DomainException implements Exception`) em todas as entidades e Value Objects.
+  - `Money` em centavos (`int`) com código de moeda ISO 4217; sem conversão no MVP.
+  - `Vintage` como `sealed class` com `VintageYear`, `NonVintage` e `UnknownVintage`; ano entre 1800 e o ano atual.
+- **Alternativas consideradas:** `assert` — inativo em release; `ArgumentError` — sinaliza bug, não regra de negócio; tipo `Result` — mais conceitos neste momento do aprendizado; `double` para dinheiro — erros de arredondamento; `Vintage?` com `null` — ambíguo.
+- **Consequências:** `Vintage`, `Quantity`, `AlcoholContent`, `PackageSize`, `Money`, `Country`, `Grape` e `GrapeComposition` serão ajustados na fase de código, com testes.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

@@ -55,11 +55,16 @@ Os contextos são conceituais; a estrutura de pastas correspondente será defini
 - O caso de uso também garante que o Wine do StoryWine seja o mesmo Wine do lote referenciado.
 - Eventos de domínio (ex.: `BottleConsumed`) ficam para quando houver necessidade real; no MVP a coordenação é feita pelo caso de uso.
 
-## 5. Entidades e Value Objects — PARCIALMENTE DEFINIDOS
+## 5. Entidades e Value Objects — DEFINIDOS
 Fundação revisada: `EntityId`, `Entity`, `AggregateRoot`.
 Entidades de catálogo discutidas: `Wine`, `Producer`, `Country`, `Region`, `Grape`.
 Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `Quantity`, `GrapeComposition`.
 `Wine` e `Story` atuais são protótipos; não promover campos atuais a contrato final.
+
+## 5.0 Padrões técnicos do domínio — APROVADOS (ADR-020)
+- **Validação:** entidades e Value Objects recusam dados inválidos lançando uma exceção de domínio própria (`DomainException`, que implementa `Exception`). Não se usa `assert` para regras de negócio (é desligado em builds de release) nem `ArgumentError` (que, por convenção do Dart, indica erro de programação). A camada de apresentação captura a exceção e mostra uma mensagem amigável.
+- **Money:** valor em **centavos (`int`)** + **código da moeda** (ISO 4217: `BRL`, `USD`, `ARS`...). Sem conversão entre moedas no MVP.
+- **Vintage:** `sealed class` com exatamente três casos — `VintageYear(ano)`, `NonVintage` e `UnknownVintage`. O compilador obriga todo código a tratar os três casos. Ano aceito entre 1800 e o ano atual.
 
 ## 5.1 Identidade de Wine — APROVADA (ADR-014, ADR-015)
 - **Identidade:** dois registros representam o mesmo Wine quando têm o mesmo **Produtor + Nome comercial + Safra**.

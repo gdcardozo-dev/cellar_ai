@@ -14,7 +14,7 @@
 - [x] Decisão 2 — A que uma `Story` se refere: `StoryWine` (ADR-016)
 - [x] Decisão 2.1 — Pessoas, lugares, fotos, pratos e escala das notas (ADR-017)
 - [x] Decisão 3 — Limites de agregados, bounded contexts e CellarLot (ADR-019)
-- [ ] Decisão 4 — Padrão de validação dos Value Objects (`assert` × exceção) e `Money` em centavos
+- [x] Decisão 4 — DomainException, Money em centavos e Vintage como sealed class (ADR-020)
 
 ### Infraestrutura
 - [ ] Integração contínua no GitHub Actions (`flutter analyze` + `flutter test`)
