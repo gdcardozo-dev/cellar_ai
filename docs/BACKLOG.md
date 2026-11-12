@@ -20,9 +20,17 @@
 - [x] Integração contínua no GitHub Actions (`dart format`, `flutter analyze`, `flutter test`)
 - [ ] Ambiente local na máquina nova (VS Code, Git, Flutter SDK) — quando for implementar código
 
+### Implementação do domínio (ADR-014 a ADR-020)
+- [x] Passo 1 — `DomainException` e `Vintage` como sealed class, com testes
+- [ ] Demais Value Objects: `Money` (centavos + moeda), `Quantity`, `AlcoholContent`, `PackageSize` com `DomainException`
+- [ ] `Region` e `GrapeComposition` passam a guardar apenas ids
+- [ ] Novo `Wine` (identidade Produtor + Nome + Safra)
+- [ ] `Story`, `StoryWine`, `Person`, `Place`
+- [ ] `CellarLot`
+
 ## Pendências técnicas identificadas (aguardando decisão)
 - Flutter 3.47+ marca `package:flutter/material.dart` como obsoleto em favor do pacote `material_ui`; avaliar migração junto com a atualização da versão do Flutter (CI fixada em 3.44.6)
-- Value Objects validados com `assert`, que não roda em builds de release
+- `Quantity`, `AlcoholContent` e `PackageSize` ainda validam com `assert`, que não roda em builds de release
 - `Money` usa `double` para valores monetários
 - Dependências Freezed/JSON no `pubspec.yaml` sem uso no código
 - `lib/app/theme.dart` e `lib/design/typography.dart` não são utilizados
