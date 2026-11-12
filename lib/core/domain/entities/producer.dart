@@ -1,5 +1,4 @@
 import '../foundation/entity.dart';
-import '../value_objects/entity_id.dart';
 
 class Producer extends Entity {
   Producer({required super.id, required String name}) : _name = name.trim() {

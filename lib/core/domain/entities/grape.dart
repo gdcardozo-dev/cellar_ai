@@ -1,5 +1,4 @@
 import '../foundation/entity.dart';
-import '../value_objects/entity_id.dart';
 
 class Grape extends Entity {
   Grape({required super.id, required String name}) : _name = name.trim() {

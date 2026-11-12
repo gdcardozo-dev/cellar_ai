@@ -17,11 +17,10 @@
 - [x] Decisão 4 — DomainException, Money em centavos e Vintage como sealed class (ADR-020)
 
 ### Infraestrutura
-- [ ] Integração contínua no GitHub Actions (`flutter analyze` + `flutter test`)
+- [x] Integração contínua no GitHub Actions (`dart format`, `flutter analyze`, `flutter test`)
 - [ ] Ambiente local na máquina nova (VS Code, Git, Flutter SDK) — quando for implementar código
 
 ## Pendências técnicas identificadas (aguardando decisão)
-- 4 imports não utilizados em `country.dart`, `grape.dart`, `producer.dart` e `region.dart`
 - Value Objects validados com `assert`, que não roda em builds de release
 - `Money` usa `double` para valores monetários
 - Dependências Freezed/JSON no `pubspec.yaml` sem uso no código

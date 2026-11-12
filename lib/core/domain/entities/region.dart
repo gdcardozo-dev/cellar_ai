@@ -1,5 +1,4 @@
 import '../foundation/entity.dart';
-import '../value_objects/entity_id.dart';
 import 'country.dart';
 
 class Region extends Entity {
