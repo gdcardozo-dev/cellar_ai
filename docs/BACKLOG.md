@@ -21,6 +21,7 @@
 - [ ] Ambiente local na máquina nova (VS Code, Git, Flutter SDK) — quando for implementar código
 
 ## Pendências técnicas identificadas (aguardando decisão)
+- Flutter 3.47+ marca `package:flutter/material.dart` como obsoleto em favor do pacote `material_ui`; avaliar migração junto com a atualização da versão do Flutter (CI fixada em 3.44.6)
 - Value Objects validados com `assert`, que não roda em builds de release
 - `Money` usa `double` para valores monetários
 - Dependências Freezed/JSON no `pubspec.yaml` sem uso no código
