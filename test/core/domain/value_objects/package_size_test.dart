@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('PackageSize', () {
     test('deve criar um volume válido', () {
-      const size = PackageSize(750);
+      final size = PackageSize(750);
 
       expect(size.milliliters, 750);
       expect(size.liters, 0.75);
