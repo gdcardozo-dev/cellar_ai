@@ -9,7 +9,7 @@ Produto orientado a experiências e memórias com vinho. O valor central está e
 - **Person:** pessoa com quem o usuário compartilhou uma experiência; cadastro privado (APROVADO — ver seção 7.2).
 - **Place:** local de uma experiência (restaurante, casa, vinícola, cidade); cadastro privado (APROVADO — ver seção 7.2).
 - **Wine:** descrição de um vinho no catálogo, independente de posse. Identificado por Produtor + Nome comercial + Safra (APROVADO — ver seção 5.1).
-- **Bottle / OwnedBottle:** representação de posse de vinho; granularidade ainda em discussão.
+- **CellarLot ("lote da adega"):** uma aquisição de N garrafas idênticas do mesmo Wine e tamanho (compra ou presente), com quantidade disponível (APROVADO — ver seção 4.2).
 - **Producer:** produtor do vinho.
 - **Grape:** variedade de uva.
 - **Region:** região geográfica, potencialmente hierárquica.
@@ -17,18 +17,43 @@ Produto orientado a experiências e memórias com vinho. O valor central está e
 - **Package:** tipo de embalagem e volume; modelagem final pendente. Não faz parte da identidade de Wine (APROVADO).
 - **GrapeComposition:** composição de uma ou mais uvas com percentuais opcionais.
 
-## 3. Bounded contexts — HIPÓTESE
-- Wine Catalog: informações de referência sobre vinhos, produtores, uvas e regiões.
-- Personal Cellar: aquisições, posse, disponibilidade e movimentações.
-- Stories: experiências e lembranças.
-- Sommelier AI: interpretação, recomendações e recuperação contextual.
-- User Profile: preferências e configurações pessoais.
-Esses limites são sugestões, não uma estrutura de pastas já aprovada.
+## 3. Bounded contexts — APROVADOS (ADR-008, ADR-019)
+- **Catálogo (Wine Catalog):** informações de referência sobre vinhos, produtores, países, regiões e uvas.
+- **Adega (Personal Cellar):** aquisições, posse, disponibilidade e baixas.
+- **Histórias (Stories):** experiências, lembranças, pessoas e lugares.
+- **Sommelier AI:** interpretação, recomendações e recuperação contextual. **Somente lê** os demais contextos; não possui agregados.
+- **Perfil (User Profile):** preferências e configurações pessoais.
+Os contextos são conceituais; a estrutura de pastas correspondente será definida na fase de código.
 
-## 4. Aggregates — PENDENTE
-`Story` é candidata natural a Aggregate Root de experiências. Isso **não** obriga toda informação relacionada a pessoas, fotos ou vinhos a pertencer ao agregado. Definir invariantes e ciclo de vida antes de decidir.
-**APROVADO (ADR-016):** `StoryWine` pertence ao agregado `Story` e só é criado ou alterado por meio dela. Os demais limites (pessoas, lugares, fotos, pratos, garrafas) seguem pendentes.
-`Wine`, `Collection`, `Purchase` e `OwnedBottle` exigem avaliação específica.
+## 4. Aggregates — APROVADOS (ADR-019)
+
+### 4.1 Regras gerais
+- De fora, só se altera um agregado por meio do seu Aggregate Root.
+- Um agregado referencia outro **somente pelo id**, nunca guardando o objeto inteiro.
+
+| Contexto | Aggregate Root | Contém | Referencia (por id) |
+|---|---|---|---|
+| Catálogo | `Wine` | `GrapeComposition`, características | `Producer`, `Region`, `Grape` |
+| Catálogo | `Producer`, `Country`, `Grape` | — | — |
+| Catálogo | `Region` | — | `Country` (e região-mãe, se houver) |
+| Histórias | `Story` | `StoryWine` (com pratos), fotos | `Wine`, `CellarLot`, `Person`, `Place` |
+| Histórias | `Person`, `Place` | — | — |
+| Adega | `CellarLot` | baixas avulsas | `Wine` |
+| Perfil | `UserProfile` | preferências | — |
+
+**Consequência no código atual:** `Region` deixa de guardar o objeto `Country`, e `GrapeComposition` deixa de guardar o objeto `Grape`; ambos passam a guardar apenas o id.
+
+### 4.2 CellarLot — APROVADO (ADR-019)
+- Um lote representa **uma aquisição** de garrafas idênticas: Wine, `PackageSize`, quantidade adquirida, quantidade disponível, data, preço unitário (opcional) e origem (compra ou presente).
+- 12 garrafas do mesmo vinho adquiridas juntas = 1 lote com quantidade 12.
+- **Invariante:** a quantidade disponível nunca fica negativa.
+- **Baixas avulsas** (garrafa quebrada, vinho estragado, garrafa doada) são registradas no próprio lote, com motivo, e não geram Story.
+
+### 4.3 Consumo e coordenação entre agregados — APROVADO (ADR-019)
+- **Abrir uma garrafa para beber sempre gera uma Story**, mesmo mínima (data e vinho). Coerente com o lema "Cada garrafa conta uma história".
+- O caso de uso **"Registrar história"** cria a Story e, para cada StoryWine que veio da adega, baixa 1 unidade do `CellarLot` correspondente.
+- O caso de uso também garante que o Wine do StoryWine seja o mesmo Wine do lote referenciado.
+- Eventos de domínio (ex.: `BottleConsumed`) ficam para quando houver necessidade real; no MVP a coordenação é feita pelo caso de uso.
 
 ## 5. Entidades e Value Objects — PARCIALMENTE DEFINIDOS
 Fundação revisada: `EntityId`, `Entity`, `AggregateRoot`.
@@ -67,11 +92,11 @@ Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `
 ### 7.1 Story → vinhos — APROVADO (ADR-016)
 A Story referencia vinhos por meio de uma lista de **StoryWine**. Cada StoryWine contém:
 - **Wine** (obrigatório): referência ao vinho do catálogo.
-- **Garrafa da adega** (opcional): preenchida somente quando o vinho veio da adega pessoal do usuário.
+- **Lote da adega** (opcional): referência ao `CellarLot` de onde a garrafa saiu; preenchida somente quando o vinho veio da adega pessoal do usuário.
 - **Impressão do usuário** (opcional): nota e comentário sobre aquele vinho naquele momento.
 
 Cenários atendidos:
-- **Em casa:** Wine + garrafa da adega.
+- **Em casa:** Wine + lote da adega.
 - **Restaurante ou presente aberto na hora:** somente Wine; não se presume que o vinho veio da adega.
 - **Degustação:** vários StoryWine, cada um com sua impressão.
 
@@ -94,10 +119,10 @@ Critério: se a IA precisa reconhecer a mesma coisa em várias histórias, ela t
 
 - **Notas:** escala de **1 a 5, inteiros**, exibidas como estrelas; opcionais tanto na Story (momento) quanto no StoryWine (vinho).
 - **Privacidade:** dados de Person e Place (inclusive de terceiros) são privados do usuário e usados apenas em respostas para ele próprio.
-- Os limites formais de agregado de Person e Place serão confirmados na Decisão 3.
+- `Person` e `Place` são Aggregate Roots próprios no contexto Histórias (ADR-019).
 
-### 7.3 Demais relacionamentos — EM ABERTO
-- Efeito de uma Story sobre a adega (abrir uma garrafa reduz a disponibilidade): depende dos limites de agregados (Decisão 3).
+### 7.3 Story e adega — APROVADO (ADR-019)
+Ver seção 4.3: o caso de uso "Registrar história" baixa 1 unidade do lote para cada StoryWine vindo da adega.
 
 ## 8. Eventos de domínio — EXEMPLOS, NÃO IMPLEMENTADOS
 `StoryCreated`, `StoryRated`, `BottleAdded`, `BottleConsumed`, `WineReviewed`.

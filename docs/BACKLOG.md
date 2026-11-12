@@ -13,7 +13,7 @@
 - [x] Decisão 1 — Identidade de `Wine` (ADR-014) e catálogo privado no MVP (ADR-015)
 - [x] Decisão 2 — A que uma `Story` se refere: `StoryWine` (ADR-016)
 - [x] Decisão 2.1 — Pessoas, lugares, fotos, pratos e escala das notas (ADR-017)
-- [ ] Decisão 3 — Limites de agregados e bounded contexts
+- [x] Decisão 3 — Limites de agregados, bounded contexts e CellarLot (ADR-019)
 - [ ] Decisão 4 — Padrão de validação dos Value Objects (`assert` × exceção) e `Money` em centavos
 
 ### Infraestrutura

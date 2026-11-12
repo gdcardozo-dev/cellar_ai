@@ -10,18 +10,19 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-004 | Direção adotada | Domain-Driven Design com `EntityId`, `Entity`, `AggregateRoot` | Classes revisadas; manter domínio sem dependência de Flutter e banco. |
 | ADR-005 | Direção adotada | `EntityId` implementado manualmente; arquivo Freezed órfão removido | Analyzer passou a zero erros e quatro warnings. |
 | ADR-006 | Direção adotada | Separar catálogo mundial e posse pessoal | Preço, compra e quantidade não pertencem à descrição global de Wine. |
-| ADR-007 | Proposta | Story como Aggregate Root das experiências | Definir invariantes; centralidade de produto não implica único agregado. Parcialmente confirmada pela ADR-016 (StoryWine pertence ao agregado Story). |
-| ADR-008 | Proposta | Bounded contexts Catalog, Cellar, Stories, Sommelier AI, User Profile | Fronteiras ainda não validadas. |
+| ADR-007 | Aprovada | Story como Aggregate Root das experiências | Confirmada pela ADR-016 e ADR-019; Story não é o único agregado do sistema. |
+| ADR-008 | Aprovada | Cinco bounded contexts: Catálogo, Adega, Histórias, Sommelier AI e Perfil | Confirmada pela ADR-019 em 12/11/2026; contextos conceituais. |
 | ADR-009 | Direção adotada | Safra opcional; blends com múltiplas uvas; PackageSize somente volume | Suporte a vinhos e embalagens variados. "Safra opcional" refinada pela ADR-014. |
 | ADR-010 | Adiada | WineVariant e WineLabel como abstrações separadas | Evitar antecipação de complexidade. |
 | ADR-011 | Aprovada | Refinar Domain Blueprint antes de implementar Wine e Story | Reduzir retrabalho. |
-| ADR-012 | Em aberto | Modelo de garrafas, lotes, Story-Wine e demais agregados | Exige sessão de modelagem. |
+| ADR-012 | Resolvida | Modelo de garrafas, lotes, Story-Wine e demais agregados | Resolvida pelas ADR-016, ADR-017 e ADR-019. |
 | ADR-013 | Aprovada | Hierarquia de documentação: fontes oficiais e histórico | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-014 | Aprovada | Identidade de Wine: Produtor + Nome comercial + Safra (ano, NV ou desconhecida) | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-015 | Aprovada | Catálogo de vinhos privado por usuário no MVP | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-016 | Aprovada | Story referencia vinhos por StoryWine; notas do momento e do vinho; ao menos um vinho por Story | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-017 | Aprovada | Person e Place como entidades; fotos e pratos como Value Objects; notas de 1 a 5 | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-018 | Aprovada | Commits de documentação de decisões aprovadas dispensam nova aprovação | Registrada no `CLAUDE.md`. Aprovada em 19/10/2026. |
+| ADR-019 | Aprovada | Limites de agregados, CellarLot e consumo sempre com Story | Detalhada abaixo. Aprovada em 12/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -78,6 +79,20 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - Dados de `Person` e `Place` são privados do usuário e usados apenas em respostas para ele.
 - **Alternativas consideradas:** textos soltos na Story (protótipo) — sem identidade, não respondem perguntas de recorrência; pratos na Story — não indicam com qual vinho harmonizaram; escalas de 100 pontos ou com meio ponto — mais jargão e complexidade.
 - **Consequências:** surgem cadastros privados de pessoas e lugares; o limite formal de agregado de `Person` e `Place` será confirmado na Decisão 3.
+
+## ADR-019 — Limites de agregados, CellarLot e consumo
+
+- **Status:** Aprovada em 12/11/2026.
+- **Contexto:** faltava definir os agregados de cada contexto, como representar as garrafas da adega e o que acontece quando uma história usa uma garrafa da adega.
+- **Decisão:**
+  - Agregados: Catálogo (`Wine`, `Producer`, `Country`, `Region`, `Grape`); Histórias (`Story`, `Person`, `Place`); Adega (`CellarLot`); Perfil (`UserProfile`). Sommelier AI apenas lê os demais contextos.
+  - Agregados se referenciam somente por id; `Region` e `GrapeComposition` passarão a guardar ids em vez de objetos.
+  - Garrafas da adega são representadas por lotes (`CellarLot`): uma aquisição de N garrafas idênticas, com quantidade disponível que nunca fica negativa.
+  - O `StoryWine` referencia o lote de onde a garrafa saiu.
+  - Abrir uma garrafa para beber sempre gera uma Story (mesmo mínima). Baixas avulsas (quebra, estrago, doação) são registradas no lote, com motivo, sem Story.
+  - No MVP, o caso de uso "Registrar história" coordena a criação da Story e a baixa no lote; eventos de domínio ficam para depois.
+- **Alternativas consideradas:** (A) um registro por garrafa — preciso, porém trabalhoso; (C) compra com itens — mais complexo e não representa presentes; consumo sem Story — permitiria perder lembranças; eventos de domínio já no MVP — complexidade prematura.
+- **Consequências:** o código de `Region` e `GrapeComposition` precisa ser ajustado; o protótipo `Wine` perde os campos de compra, que passam ao `CellarLot`; a localização física de garrafas na adega fica fora do MVP.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.
