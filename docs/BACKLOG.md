@@ -24,8 +24,9 @@
 - [x] Passo 1 — `DomainException` e `Vintage` como sealed class, com testes
 - [x] Passo 2 — `Money` (centavos + moeda), `Quantity`, `AlcoholContent`, `PackageSize` e entidades de catálogo com `DomainException`, com testes
 - [x] Passo 3 — `Region` e `GrapeComposition` passam a guardar apenas ids (ADR-019), com testes
-- [ ] Novo `Wine` (identidade Produtor + Nome + Safra)
+- [x] Passo 4 — Novo `Wine` como Aggregate Root (identidade, `WineType`, regras de uvas), com testes
   - Avaliar hierarquia de regiões (região-mãe, ex.: Mendoza → Luján de Cuyo) — proposta, ainda não decidida
+- [ ] Caso de uso "Cadastrar vinho" (impede duplicatas no catálogo) — junto com a camada de aplicação
 - [ ] `Story`, `StoryWine`, `Person`, `Place`
 - [ ] `CellarLot`
 
@@ -33,6 +34,5 @@
 - Flutter 3.47+ marca `package:flutter/material.dart` como obsoleto em favor do pacote `material_ui`; avaliar migração junto com a atualização da versão do Flutter (CI fixada em 3.44.6)
 - Dependências Freezed/JSON no `pubspec.yaml` sem uso no código
 - `lib/app/theme.dart` e `lib/design/typography.dart` não são utilizados
-- Comentário em `aggregate_root.dart` apresenta propostas (ADR-007) como fatos
 - Botão da Home "Adicionar primeiro vinho" não reflete a jornada "Histórias"
 - Branch `main` não recebe o trabalho da `develop` desde o início do domínio

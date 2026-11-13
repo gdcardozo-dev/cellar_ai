@@ -24,6 +24,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-018 | Aprovada | Commits de documentação de decisões aprovadas dispensam nova aprovação | Registrada no `CLAUDE.md`. Aprovada em 19/10/2026. |
 | ADR-019 | Aprovada | Limites de agregados, CellarLot e consumo sempre com Story | Detalhada abaixo. Aprovada em 12/11/2026. |
 | ADR-020 | Aprovada | Padrões técnicos: DomainException, Money em centavos com moeda, Vintage como sealed class | Detalhada abaixo. Aprovada em 12/11/2026. |
+| ADR-021 | Aprovada | Tipo do vinho como lista única opcional; regras de composição de uvas | Detalhada abaixo. Aprovada em 13/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -105,6 +106,17 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - `Vintage` como `sealed class` com `VintageYear`, `NonVintage` e `UnknownVintage`; ano entre 1800 e o ano atual.
 - **Alternativas consideradas:** `assert` — inativo em release; `ArgumentError` — sinaliza bug, não regra de negócio; tipo `Result` — mais conceitos neste momento do aprendizado; `double` para dinheiro — erros de arredondamento; `Vintage?` com `null` — ambíguo.
 - **Consequências:** `Vintage`, `Quantity`, `AlcoholContent`, `PackageSize`, `Money`, `Country`, `Grape` e `GrapeComposition` serão ajustados na fase de código, com testes.
+
+## ADR-021 — Tipo do vinho e composição de uvas
+
+- **Status:** Aprovada em 13/11/2026.
+- **Contexto:** a IA precisa distinguir tipos de vinho ("qual o melhor espumante que já tomei?"), e a composição de uvas precisava de regras de consistência.
+- **Decisão:**
+  - Tipo do vinho (`WineType`) opcional, em lista única: tinto, branco, rosé, laranja, espumante, fortificado e sobremesa.
+  - A mesma uva não aparece duas vezes na composição de um Wine.
+  - A soma dos percentuais conhecidos das uvas não passa de 100%.
+- **Alternativas consideradas:** duas dimensões (cor e estilo) — mais precisa, porém exige mais uma escolha do usuário; sem tipo no MVP — impede perguntas por tipo.
+- **Consequências:** um espumante rosé é registrado como "espumante". Se a precisão de cor e estilo for necessária no futuro, cada tipo da lista pode ser desdobrado.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

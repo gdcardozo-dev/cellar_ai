@@ -76,6 +76,9 @@ Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `
 - **Características, não identidade:** país, região, uvas, teor alcoólico e estilo. Corrigi-las não transforma o vinho em outro.
 - **Tamanho da embalagem fora do Wine:** `PackageSize` pertence à unidade física (garrafa), não ao catálogo.
 - **Agrupamento por rótulo:** "todas as safras de um vinho" é calculado a partir de Produtor + Nome comercial. Não há classe `WineLabel` (ADR-010 continua adiada).
+- **Tipo do vinho (ADR-021):** campo opcional, lista única em linguagem simples: tinto, branco, rosé, laranja, espumante, fortificado e sobremesa. Um espumante rosé é "espumante".
+- **Uvas (ADR-021):** a mesma uva não aparece duas vezes na composição; a soma dos percentuais conhecidos não passa de 100%.
+- **Duplicatas:** o Wine sabe comparar sua identidade com a de outro; impedir cadastro duplicado é responsabilidade do caso de uso de cadastro, que consulta o catálogo.
 - **Catálogo privado no MVP:** cada usuário mantém seu próprio catálogo. O modelo não deve impedir um catálogo compartilhado no futuro.
 
 ### Regras complementares — APROVADAS (ADR-014)

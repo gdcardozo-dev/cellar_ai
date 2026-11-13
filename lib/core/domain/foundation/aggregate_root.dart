@@ -7,9 +7,12 @@ import 'entity.dart';
 ///
 /// Em outras palavras, ele define o limite de consistência do agregado.
 ///
-/// Exemplo:
-/// Story é Aggregate Root das fotos, pessoas e comidas.
-/// Purchase é Aggregate Root das garrafas adquiridas.
+/// Exemplos (ADR-019):
+/// - Story contém StoryWine e fotos;
+/// - Wine é Aggregate Root do catálogo;
+/// - CellarLot é Aggregate Root de um lote de garrafas da adega.
+///
+/// Agregados diferentes se referenciam somente pelo id.
 abstract class AggregateRoot extends Entity {
   const AggregateRoot({required super.id});
 }
