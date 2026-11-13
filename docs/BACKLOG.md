@@ -23,8 +23,9 @@
 ### Implementação do domínio (ADR-014 a ADR-020)
 - [x] Passo 1 — `DomainException` e `Vintage` como sealed class, com testes
 - [x] Passo 2 — `Money` (centavos + moeda), `Quantity`, `AlcoholContent`, `PackageSize` e entidades de catálogo com `DomainException`, com testes
-- [ ] `Region` e `GrapeComposition` passam a guardar apenas ids
+- [x] Passo 3 — `Region` e `GrapeComposition` passam a guardar apenas ids (ADR-019), com testes
 - [ ] Novo `Wine` (identidade Produtor + Nome + Safra)
+  - Avaliar hierarquia de regiões (região-mãe, ex.: Mendoza → Luján de Cuyo) — proposta, ainda não decidida
 - [ ] `Story`, `StoryWine`, `Person`, `Place`
 - [ ] `CellarLot`
 

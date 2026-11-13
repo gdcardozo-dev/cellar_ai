@@ -50,20 +50,35 @@ void main() {
   });
 
   group('Region', () {
-    final argentina = Country(id: const EntityId('ar'), name: 'Argentina');
+    const argentina = EntityId('ar');
+
+    test('deve guardar o id do país', () {
+      final region = Region(id: id, countryId: argentina, name: 'Mendoza');
+
+      expect(region.countryId, argentina);
+    });
 
     test('deve recusar nome vazio', () {
       expect(
-        () => Region(id: id, country: argentina, name: ''),
+        () => Region(id: id, countryId: argentina, name: ''),
         throwsA(isA<DomainException>()),
       );
     });
 
     test('deve remover espaços nas pontas do nome', () {
       expect(
-        Region(id: id, country: argentina, name: ' Mendoza ').name,
+        Region(id: id, countryId: argentina, name: ' Mendoza ').name,
         'Mendoza',
       );
+    });
+
+    test('rename deve manter o id e o país', () {
+      final region = Region(id: id, countryId: argentina, name: 'Mendosa');
+      final renamed = region.rename('Mendoza');
+
+      expect(renamed.name, 'Mendoza');
+      expect(renamed.id, id);
+      expect(renamed.countryId, argentina);
     });
   });
 }
