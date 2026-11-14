@@ -2,6 +2,7 @@ import 'package:cellar_ai/core/domain/entities/country.dart';
 import 'package:cellar_ai/core/domain/entities/grape.dart';
 import 'package:cellar_ai/core/domain/entities/producer.dart';
 import 'package:cellar_ai/core/domain/entities/region.dart';
+import 'package:cellar_ai/core/domain/foundation/aggregate_root.dart';
 import 'package:cellar_ai/core/domain/foundation/domain_exception.dart';
 import 'package:cellar_ai/core/domain/value_objects/entity_id.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -79,6 +80,18 @@ void main() {
       expect(renamed.name, 'Mendoza');
       expect(renamed.id, id);
       expect(renamed.countryId, argentina);
+    });
+  });
+
+  group('Catálogo — Aggregate Roots (ADR-019)', () {
+    test('entidades do catálogo devem ser Aggregate Roots', () {
+      expect(Country(id: id, name: 'Argentina'), isA<AggregateRoot>());
+      expect(Grape(id: id, name: 'Malbec'), isA<AggregateRoot>());
+      expect(Producer(id: id, name: 'Catena'), isA<AggregateRoot>());
+      expect(
+        Region(id: id, countryId: id, name: 'Mendoza'),
+        isA<AggregateRoot>(),
+      );
     });
   });
 }

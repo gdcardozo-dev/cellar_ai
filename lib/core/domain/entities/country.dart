@@ -1,7 +1,7 @@
+import '../foundation/aggregate_root.dart';
 import '../foundation/domain_exception.dart';
-import '../foundation/entity.dart';
 
-class Country extends Entity {
+class Country extends AggregateRoot {
   Country({required super.id, required String name}) : _name = name.trim() {
     if (_name.isEmpty) {
       throw const DomainException('O nome do país não pode ser vazio.');

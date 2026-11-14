@@ -25,6 +25,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-019 | Aprovada | Limites de agregados, CellarLot e consumo sempre com Story | Detalhada abaixo. Aprovada em 12/11/2026. |
 | ADR-020 | Aprovada | Padrões técnicos: DomainException, Money em centavos com moeda, Vintage como sealed class | Detalhada abaixo. Aprovada em 12/11/2026. |
 | ADR-021 | Aprovada | Tipo do vinho como lista única opcional; regras de composição de uvas | Detalhada abaixo. Aprovada em 13/11/2026. |
+| ADR-022 | Aprovada | Person identificada pelo nome normalizado; Place com tipo e cidade opcionais | Detalhada abaixo. Aprovada em 14/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -117,6 +118,19 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - A soma dos percentuais conhecidos das uvas não passa de 100%.
 - **Alternativas consideradas:** duas dimensões (cor e estilo) — mais precisa, porém exige mais uma escolha do usuário; sem tipo no MVP — impede perguntas por tipo.
 - **Consequências:** um espumante rosé é registrado como "espumante". Se a precisão de cor e estilo for necessária no futuro, cada tipo da lista pode ser desdobrado.
+
+## ADR-022 — Person e Place
+
+- **Status:** Aprovada em 14/11/2026.
+- **Contexto:** era preciso definir os dados e a identidade de pessoas e lugares do contexto Histórias, considerando privacidade de terceiros.
+- **Decisão:**
+  - `Person` guarda somente o nome (princípio da necessidade da LGPD).
+  - Identidade de `Person` = nome normalizado (sem maiúsculas, acentos e espaços extras). Duas pessoas com a mesma grafia são a mesma pessoa; o usuário diferencia homônimos pela grafia.
+  - `Place` tem tipo opcional (`PlaceType`: casa, restaurante, bar, vinícola, loja de vinhos, evento, outro) e cidade opcional em texto livre.
+  - Identidade de `Place` é apenas o id: lugares com o mesmo nome podem ser diferentes.
+  - `Country`, `Grape`, `Producer` e `Region` passam a estender `AggregateRoot`, conforme a ADR-019.
+- **Alternativas consideradas:** Person identificada só pelo id — permitiria duplicatas silenciosas que distorcem "com quem mais compartilho vinho?"; mais dados de pessoas (contato, foto) — desnecessários e sensíveis; cadastro próprio de cidades — complexidade prematura.
+- **Consequências:** o caso de uso de cadastro de pessoa deve impedir duplicatas pelo nome normalizado. A detecção de duplicatas de lugares, se desejada, será decidida depois.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

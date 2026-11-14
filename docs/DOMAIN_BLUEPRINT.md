@@ -126,6 +126,8 @@ Critério: se a IA precisa reconhecer a mesma coisa em várias histórias, ela t
 | **Prato** | Value Object | Dentro do **StoryWine** (harmonização daquele vinho) | "Qual foi a melhor harmonização que já fiz?" |
 
 - **Notas:** escala de **1 a 5, inteiros**, exibidas como estrelas; opcionais tanto na Story (momento) quanto no StoryWine (vinho).
+- **Person (ADR-022):** guarda somente o nome (princípio da necessidade). Identidade de domínio = nome normalizado: duas pessoas com a mesma grafia são a mesma pessoa; homônimos são diferenciados pela grafia ("Ana Bolena", "Ana de Brasília").
+- **Place (ADR-022):** nome, tipo opcional (casa, restaurante, bar, vinícola, loja de vinhos, evento, outro) e cidade opcional em texto livre. Identidade apenas pelo id: dois "Bar do Zé" em cidades diferentes são lugares diferentes.
 - **Privacidade:** dados de Person e Place (inclusive de terceiros) são privados do usuário e usados apenas em respostas para ele próprio.
 - `Person` e `Place` são Aggregate Roots próprios no contexto Histórias (ADR-019).
 

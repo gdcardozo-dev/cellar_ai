@@ -27,7 +27,9 @@
 - [x] Passo 4 — Novo `Wine` como Aggregate Root (identidade, `WineType`, regras de uvas), com testes
   - Avaliar hierarquia de regiões (região-mãe, ex.: Mendoza → Luján de Cuyo) — proposta, ainda não decidida
 - [ ] Caso de uso "Cadastrar vinho" (impede duplicatas no catálogo) — junto com a camada de aplicação
-- [ ] `Story`, `StoryWine`, `Person`, `Place`
+- [x] Passo 5 — `Person` e `Place` (ADR-022); catálogo estende `AggregateRoot`, com testes
+- [ ] Caso de uso "Cadastrar pessoa" (impede duplicatas pelo nome normalizado)
+- [ ] Passo 6 — `Story` e `StoryWine`
 - [ ] `CellarLot`
 
 ## Pendências técnicas identificadas (aguardando decisão)
