@@ -33,6 +33,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-027 | Aprovada | Procedência dos dados: sugerido × confirmado; identidade sempre confirmada | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-028 | Aprovada | IA fora do MVP; app funciona sem serviços externos de IA | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-029 | Aprovada | Ordem de preferência de pesquisa: uva, região, produtor e rótulo; país associado à região | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-030 | Aprovada | Regras da Story: título opcional, destino bebido/presenteado, sem data futura, troca de vinho só fora da adega | Detalhada abaixo. Aprovada em 18/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -193,6 +194,19 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 - **Contexto:** a ordem foi definida em conversas anteriores, mas não estava registrada no repositório.
 - **Decisão:** a pesquisa de vinhos privilegia, nesta ordem: uva, região, produtor e rótulo. O país é apresentado associado à região.
 - **Consequências:** orienta a futura funcionalidade de pesquisa (próxima versão).
+
+## ADR-030 — Regras da Story e do StoryWine
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** detalhamento do Passo 6, considerando a história opcional de presente (ADR-025).
+- **Decisão:**
+  - Título (ou ocasião) da Story é opcional; a história mínima tem data e um vinho.
+  - Cada `StoryWine` tem um destino: bebido (padrão) ou presenteado. Vinho presenteado não recebe nota do vinho, pois não foi provado; a nota do momento continua permitida.
+  - A data da Story não pode estar no futuro (comparação por dia).
+  - Trocar o vinho de um `StoryWine` (ex.: completar safra desconhecida) é recusado quando o item veio de um lote da adega; nesse caso a correção pertence ao lote.
+  - `Place` mantém identidade apenas pelo id (confirmação da ADR-022).
+- **Alternativas consideradas:** título obrigatório — atrito no registro rápido; permitir nota de vinho presenteado — a IA afirmaria uma avaliação inexistente; permitir troca de vinho em item da adega — quebraria a regra "Wine do StoryWine = Wine do lote" (ADR-019).
+- **Consequências:** `StoryWine` é uma entidade interna com id próprio; `Rating`, `Photo` e `Dish` são Value Objects.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

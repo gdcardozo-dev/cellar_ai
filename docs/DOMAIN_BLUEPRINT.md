@@ -134,6 +134,12 @@ Cenários atendidos:
 
 **Completar safra desconhecida:** troca-se o Wine referenciado pelo StoryWine daquela Story (seção 5.1).
 
+**Regras complementares — APROVADAS (ADR-030):**
+- Título/ocasião opcional; história mínima = data + um vinho.
+- Destino de cada StoryWine: bebido (padrão) ou presenteado. Vinho presenteado não recebe nota do vinho.
+- Data da Story não pode estar no futuro.
+- Trocar o Wine de um StoryWine vindo de lote da adega é recusado; a correção pertence ao lote.
+
 ### 7.2 Pessoas, lugares, fotos, pratos e notas — APROVADO (ADR-017)
 Critério: se a IA precisa reconhecer a mesma coisa em várias histórias, ela tem identidade (entidade); se não, é detalhe da história (Value Object).
 
@@ -146,7 +152,7 @@ Critério: se a IA precisa reconhecer a mesma coisa em várias histórias, ela t
 
 - **Notas:** escala de **1 a 5, inteiros**, exibidas como estrelas; opcionais tanto na Story (momento) quanto no StoryWine (vinho).
 - **Person (ADR-022):** guarda somente o nome (princípio da necessidade). Identidade de domínio = nome normalizado: duas pessoas com a mesma grafia são a mesma pessoa; homônimos são diferenciados pela grafia ("Ana Bolena", "Ana de Brasília").
-- **Place (ADR-022):** nome, tipo opcional (casa, restaurante, bar, vinícola, loja de vinhos, evento, outro) e cidade opcional em texto livre. Identidade apenas pelo id: dois "Bar do Zé" em cidades diferentes são lugares diferentes.
+- **Place (ADR-022):** nome, tipo opcional (casa, restaurante, bar, vinícola, loja de vinhos, evento, outro) e cidade opcional em texto livre. Identidade apenas pelo id: dois "Bar do Zé" em cidades diferentes são lugares diferentes. Confirmado em 18/11/2026 (ADR-030).
 - **Privacidade:** dados de Person e Place (inclusive de terceiros) são privados do usuário e usados apenas em respostas para ele próprio.
 - `Person` e `Place` são Aggregate Roots próprios no contexto Histórias (ADR-019).
 
