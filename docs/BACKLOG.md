@@ -40,7 +40,8 @@
 - [x] `MarketValuation` com histórico e estimativa vigente (ADR-032), com testes
 - [x] `DrinkingWindow` e status de consumo por regras explícitas (ADR-032), com testes
 - [ ] Tipo de embalagem e código de lote do fabricante
-- [ ] Fixtures dos 12 vinhos reais + testes de aceite (produtor × nome confirmados em 18/11/2026)
+- [x] Fixtures dos 12 vinhos reais (`test/fixtures/`) + testes de aceite (`test/acceptance/`)
+- [x] `CollectionSummary`: lógica do painel simples (garrafas, países, custo pago e valor estimado por moeda)
 
 ## Sprints seguintes
 - [ ] Sprint 2 — Casos de uso com armazenamento em memória
