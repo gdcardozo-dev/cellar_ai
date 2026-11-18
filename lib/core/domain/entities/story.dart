@@ -1,44 +1,121 @@
-class Story {
-  const Story({
-    required this.id,
-    required this.title,
+import '../foundation/aggregate_root.dart';
+import '../foundation/domain_exception.dart';
+import '../foundation/optional_text.dart';
+import '../value_objects/entity_id.dart';
+import '../value_objects/photo.dart';
+import '../value_objects/rating.dart';
+import 'story_wine.dart';
+
+/// Registro de uma experiência com vinho (ADR-007, ADR-016, ADR-017,
+/// ADR-030). Coração do produto: "Cada garrafa conta uma história."
+///
+/// Invariantes:
+/// - pelo menos um vinho;
+/// - data não pode estar no futuro;
+/// - a mesma pessoa não aparece duas vezes;
+/// - cada vinho da história tem id próprio e único.
+///
+/// Imutável: alterações devolvem uma nova Story.
+class Story extends AggregateRoot {
+  /// [now] existe para os testes poderem fixar o "hoje".
+  Story({
+    required super.id,
     required this.date,
-    this.location,
-    this.notes,
+    required List<StoryWine> wines,
+    String? title,
     this.rating,
-    this.photoUrls = const [],
-    this.people = const [],
-    this.foods = const [],
-    this.wineIds = const [],
-  });
+    String? notes,
+    this.placeId,
+    List<EntityId> peopleIds = const [],
+    List<Photo> photos = const [],
+    DateTime? now,
+  }) : title = cleanOptionalText(title),
+       notes = cleanOptionalText(notes),
+       wines = List.unmodifiable(wines),
+       peopleIds = List.unmodifiable(peopleIds),
+       photos = List.unmodifiable(photos) {
+    if (this.wines.isEmpty) {
+      throw const DomainException(
+        'Uma história precisa de pelo menos um vinho.',
+      );
+    }
+    if (_dayOf(date).isAfter(_dayOf(now ?? DateTime.now()))) {
+      throw const DomainException(
+        'A data da história não pode estar no futuro.',
+      );
+    }
+    if (this.peopleIds.toSet().length != this.peopleIds.length) {
+      throw const DomainException(
+        'A mesma pessoa não pode aparecer duas vezes na história.',
+      );
+    }
+    final wineIds = this.wines.map((wine) => wine.id).toSet();
+    if (wineIds.length != this.wines.length) {
+      throw const DomainException(
+        'Cada vinho da história precisa de um id próprio.',
+      );
+    }
+  }
 
-  /// Identificador único
-  final String id;
-
-  /// Ex.: "Jantar de aniversário"
-  final String title;
-
-  /// Data da experiência
+  /// Dia da experiência.
   final DateTime date;
 
-  /// Restaurante, cidade, vinícola, casa...
-  final String? location;
+  /// Título ou ocasião (opcional), ex.: "Aniversário da Ana".
+  final String? title;
 
-  /// Texto livre escrito pelo usuário
+  /// Nota do momento (opcional).
+  final Rating? rating;
+
+  /// Observações livres (opcional).
   final String? notes;
 
-  /// Avaliação da experiência (1 a 5)
-  final int? rating;
+  /// Lugar da experiência (opcional).
+  final EntityId? placeId;
 
-  /// Fotos relacionadas
-  final List<String> photoUrls;
+  /// Vinhos da história (ao menos um). Lista imutável.
+  final List<StoryWine> wines;
 
-  /// Pessoas presentes
-  final List<String> people;
+  /// Pessoas presentes, sem repetição. Lista imutável.
+  final List<EntityId> peopleIds;
 
-  /// Pratos consumidos
-  final List<String> foods;
+  /// Fotos. Lista imutável.
+  final List<Photo> photos;
 
-  /// IDs dos vinhos utilizados
-  final List<String> wineIds;
+  /// Troca o vinho de um item da história (ex.: completar safra
+  /// desconhecida). Recusa itens vindos da adega: nesse caso, a correção
+  /// pertence ao lote (ADR-030).
+  Story replaceWine(EntityId storyWineId, EntityId newWineId) {
+    final index = wines.indexWhere((wine) => wine.id == storyWineId);
+    if (index < 0) {
+      throw const DomainException('Vinho não encontrado nesta história.');
+    }
+    final current = wines[index];
+    if (current.isFromCellar) {
+      throw const DomainException(
+        'Este vinho veio da adega. Para corrigi-lo, ajuste o lote da adega.',
+      );
+    }
+    final updated = [...wines];
+    updated[index] = current.withWine(newWineId);
+    return _copyWith(wines: updated);
+  }
+
+  Story _copyWith({required List<StoryWine> wines}) {
+    return Story(
+      id: id,
+      date: date,
+      wines: wines,
+      title: title,
+      rating: rating,
+      notes: notes,
+      placeId: placeId,
+      peopleIds: peopleIds,
+      photos: photos,
+      // A data já foi validada na criação desta história.
+      now: date,
+    );
+  }
+
+  static DateTime _dayOf(DateTime value) =>
+      DateTime(value.year, value.month, value.day);
 }

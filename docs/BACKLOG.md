@@ -29,7 +29,7 @@
 - [ ] Caso de uso "Cadastrar vinho" (impede duplicatas no catálogo) — junto com a camada de aplicação
 - [x] Passo 5 — `Person` e `Place` (ADR-022); catálogo estende `AggregateRoot`, com testes
 - [ ] Caso de uso "Cadastrar pessoa" (impede duplicatas pelo nome normalizado)
-- [ ] Passo 6 — `Story` e `StoryWine` (inclui história opcional de presente, ADR-025)
+- [x] Passo 6 — `Story` e `StoryWine` (ADR-016, ADR-025, ADR-030), com `Rating`, `Photo`, `Dish` e testes
 - [ ] Passo 7 — `CellarLot` e `Acquisition` (ADR-026)
 
 ## Sprint 1 — Valor, tempo e dados reais (ver `PRODUCT_EVOLUTION_PLAN.md`)
