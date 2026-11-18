@@ -77,11 +77,8 @@ void main() {
 
     test('deve recusar data futura', () {
       expect(
-        () => Acquisition(
-          id: grandCru,
-          date: DateTime(2026, 11, 19),
-          now: today,
-        ),
+        () =>
+            Acquisition(id: grandCru, date: DateTime(2026, 11, 19), now: today),
         throwsA(isA<DomainException>()),
       );
     });

@@ -86,10 +86,7 @@ class CellarLot extends AggregateRoot {
     }
   }
 
-  CellarLot _copyWith({
-    required int available,
-    List<CellarRemoval>? removals,
-  }) {
+  CellarLot _copyWith({required int available, List<CellarRemoval>? removals}) {
     return CellarLot(
       id: id,
       wineId: wineId,
