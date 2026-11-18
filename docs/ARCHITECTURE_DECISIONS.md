@@ -35,6 +35,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-029 | Aprovada | Ordem de preferência de pesquisa: uva, região, produtor e rótulo; país associado à região | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-030 | Aprovada | Regras da Story: título opcional, destino bebido/presenteado, sem data futura, troca de vinho só fora da adega | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-031 | Aprovada | CellarLot e Acquisition como Aggregate Roots separados; lote referencia a compra pelo id | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-032 | Aprovada | Janela de consumo com status por regras explícitas; MarketValuation com histórico | Detalhada abaixo. Aprovada em 18/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -217,6 +218,22 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 - **Alternativas consideradas:** Acquisition contendo os lotes — abrir uma garrafa alteraria a compra inteira, e o StoryWine precisaria referenciar uma entidade interna de outro agregado.
 - **Regras complementares (aprovadas em 18/11/2026):** presente recebido (`AcquisitionOrigin.gift`) não tem valor pago; data da compra não pode estar no futuro.
 - **Consequências:** abrir uma garrafa altera somente o lote. Regras que envolvem compra e lotes juntos (ex.: moedas compatíveis) ficam nos casos de uso.
+
+## ADR-032 — Janela de consumo e valor de mercado
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** Sprint 1 (ADR-023, ADR-027): identificar o momento de consumo e acompanhar o valor estimado da coleção.
+- **Decisão — status de consumo** (ano atual Y; janela de A a B; melhor fase opcional de P1 a P2):
+  - sem janela → **Sem informação** (nunca há palpite);
+  - Y < A → **Pode esperar**;
+  - Y > B → **Atenção à guarda**;
+  - Y = B (último ano) → **Abrir agora**;
+  - com melhor fase e Y < P1 → **Pode esperar** (já pode abrir, mas tende a melhorar);
+  - demais anos dentro da janela → **No melhor momento**;
+  - janela não confirmada → categoria apresentada como sugestão.
+- **Decisão — MarketValuation:** estimativa com valor e moeda, tipo (reposição ou revenda), data de referência (pode ser desconhecida) e procedência. Ligada ao Wine pelo id. Histórico: nova estimativa não apaga a anterior; a vigente é a registrada mais recentemente para o vinho e o tipo.
+- **Alternativas consideradas:** categorias calculadas por IA — pouco explicáveis no MVP; valor de mercado como campo único do Wine — perderia histórico e procedência.
+- **Consequências:** regras testáveis e explicáveis ao usuário; o valor estimado da coleção multiplica a estimativa vigente pelas garrafas disponíveis.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

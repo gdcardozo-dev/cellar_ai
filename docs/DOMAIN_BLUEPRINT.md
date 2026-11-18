@@ -82,10 +82,10 @@ Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `
 - Podem ficar como sugestão: região, uvas, teor alcoólico, janela de consumo, classificação, harmonização, avaliações da crítica e estimativas de valor.
 - Sugestões só passam ao catálogo privado após confirmação do usuário (ADR-024).
 
-## 5.0.2 Valor de mercado e janela de consumo — PROPOSTA (Sprint 1)
+## 5.0.2 Valor de mercado e janela de consumo — APROVADO (ADR-032)
 - **MarketValuation:** valor e moeda, tipo (reposição ou revenda), data de referência (pode ser desconhecida), data do registro, fonte e confiança. Histórico: uma estimativa nova não apaga a anterior. Ligada ao Wine. Não se confunde com custo pago (Acquisition/CellarLot).
 - **DrinkingWindow:** ano inicial, pico (opcional) e ano limite, com procedência.
-- **Status de consumo**, calculado por regras explícitas: Pode esperar · Abrir agora · No melhor momento · Atenção à guarda · Sem informação. Os limiares exatos dependem de aprovação.
+- **Status de consumo**, calculado por regras explícitas: Pode esperar · Abrir agora · No melhor momento · Atenção à guarda · Sem informação. Regras detalhadas na ADR-032.
 
 ## 5.1 Identidade de Wine — APROVADA (ADR-014, ADR-015)
 - **Identidade:** dois registros representam o mesmo Wine quando têm o mesmo **Produtor + Nome comercial + Safra**.
