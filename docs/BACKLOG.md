@@ -35,11 +35,12 @@
 **Sprint 0 concluída em 18/11/2026.**
 
 ## Sprint 1 — Valor, tempo e dados reais (ver `PRODUCT_EVOLUTION_PLAN.md`)
-- [ ] Procedência dos dados (ADR-027)
+- [x] Procedência dos dados: `Provenance` e `Sourced<T>` (ADR-027), com testes
+- [ ] Aplicar `Sourced` aos campos enriquecíveis do `Wine` (região, uvas, teor alcoólico) — avaliar junto com os fixtures
 - [ ] `MarketValuation` (estimativas com fonte, data e confiança)
 - [ ] `DrinkingWindow` e status de consumo por regras explícitas (limiares a aprovar)
 - [ ] Tipo de embalagem e código de lote do fabricante
-- [ ] Fixtures dos 12 vinhos reais + testes de aceite (confirmar produtor × nome antes)
+- [ ] Fixtures dos 12 vinhos reais + testes de aceite (produtor × nome confirmados em 18/11/2026)
 
 ## Sprints seguintes
 - [ ] Sprint 2 — Casos de uso com armazenamento em memória

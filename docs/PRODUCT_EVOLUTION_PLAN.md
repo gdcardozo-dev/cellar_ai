@@ -53,7 +53,22 @@
 - Campos desconhecidos permanecem vazios; nada é inventado.
 - Safras: 001 e 012 → **desconhecida** (decisão de 18/11/2026). O código de lote de 012 (L2624426) nunca é usado para inferir safra.
 - Estimativas de mercado: confiança baixa, fonte "estimativa histórica", data de referência desconhecida. Não são cotações atuais.
-- Separação produtor × nome comercial de cada vinho: a confirmar com o responsável antes de montar os fixtures.
+- Separação produtor × nome comercial confirmada pelo responsável em 18/11/2026:
+
+| ID | Produtor | Nome comercial |
+|---|---|---|
+| 001 | Espaço Rural | Bojador Amphora Tinto |
+| 002 | Nieto Senetiner | Single Vineyard Villa Blanca Malbec |
+| 003 | Tenuta Marcianella | Vino Nobile di Montepulciano |
+| 004 | Viña Cobos | Bramare Luján de Cuyo Malbec |
+| 005 | CARMIM | Reguengos Tinto |
+| 006 | Aveleda | Solos de Xisto Alvarinho |
+| 007 | Luigi Bosca | Insignia Malbec |
+| 008 | Esporão | Monte Velho Tinto |
+| 009 | Cartuxa (Fundação Eugénio de Almeida) | EA Tinto |
+| 010 | Van Zeller Wine Collection | Iron Maiden Eddie's Blend Darkest Red |
+| 011 | Concha y Toro | Casillero del Diablo Reserva Cabernet Sauvignon |
+| 012 | Concha y Toro | Casillero del Diablo Devil's Carnaval Spectacular Cabernet |
 
 | ID | Vinho | Safra | País | Qtde. | Financeiro conhecido |
 |---|---|---|---|---|---|
