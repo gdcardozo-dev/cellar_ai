@@ -22,11 +22,8 @@ void main() {
 
     test('deve exigir início e fim da melhor fase juntos', () {
       expect(
-        () => DrinkingWindow(
-          fromYear: 2026,
-          untilYear: 2032,
-          peakFromYear: 2028,
-        ),
+        () =>
+            DrinkingWindow(fromYear: 2026, untilYear: 2032, peakFromYear: 2028),
         throwsA(isA<DomainException>()),
       );
     });
