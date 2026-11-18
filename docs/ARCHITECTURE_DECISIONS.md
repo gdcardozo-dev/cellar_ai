@@ -37,6 +37,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-031 | Aprovada | CellarLot e Acquisition como Aggregate Roots separados; lote referencia a compra pelo id | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-032 | Aprovada | Janela de consumo com status por regras explícitas; MarketValuation com histórico | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-033 | Aprovada | Tipo de embalagem e código de lote do fabricante no CellarLot; procedência no Wine adiada para a Sprint 2 | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-034 | Aprovada | Pastas por camada: domínio, aplicação e infraestrutura; repositórios como contratos no domínio | Detalhada abaixo. Aprovada em 18/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -246,6 +247,18 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - Aplicar `Sourced` aos campos enriquecíveis do `Wine` (região, uvas, teor alcoólico) fica para a Sprint 2, junto com o caso de uso de cadastro, para não alterar o `Wine` duas vezes.
 - **Alternativas consideradas:** tipo de embalagem no `Wine` — a embalagem pertence à unidade física, não ao catálogo (ADR-014).
 - **Consequências:** o vinho 012 da adega real registra o código "L2624426" com safra desconhecida.
+
+## ADR-034 — Organização em camadas e repositórios
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** início da camada de aplicação (Sprint 2); a ADR-008 deixou a estrutura de pastas para a fase de código.
+- **Decisão:**
+  - Organização por camada: `lib/core/domain/` (regras e contratos de repositório), `lib/core/application/` (casos de uso) e `lib/infrastructure/` (implementações: memória e, depois, persistência).
+  - Repositórios são contratos (`interface class`) assíncronos no domínio; casos de uso dependem apenas dos contratos.
+  - Casos de uso validam todas as regras antes de salvar qualquer dado ("tudo ou nada").
+  - Primeiro caso de uso: "Registrar história".
+- **Alternativas consideradas:** pastas por contexto (`catalog/`, `cellar/`, `stories/`) — melhor para projetos grandes, mas exigiria mover todo o código existente agora.
+- **Consequências:** a persistência da Sprint 3 deve oferecer transação para que salvar lotes e história seja atômico. Reavaliar a organização por contexto quando o app crescer.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.
