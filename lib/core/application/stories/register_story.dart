@@ -13,11 +13,8 @@ import '../../domain/value_objects/entity_id.dart';
 ///
 /// Se qualquer regra falhar, nada é salvo.
 class RegisterStory {
-  RegisterStory({
-    required StoryRepository stories,
-    required CellarLotRepository lots,
-  }) : _stories = stories,
-       _lots = lots;
+  /// Quem chama usa os nomes sem sublinhado: `stories:` e `lots:`.
+  RegisterStory({required this._stories, required this._lots});
 
   final StoryRepository _stories;
   final CellarLotRepository _lots;
