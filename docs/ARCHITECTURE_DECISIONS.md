@@ -215,6 +215,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 - **Contexto:** a ADR-026 criou `Acquisition` e deixou pendente se ela contém os lotes ou os referencia.
 - **Decisão:** `CellarLot` e `Acquisition` são Aggregate Roots independentes. O lote referencia a compra pelo id. O `StoryWine` continua referenciando o lote (ADR-019). A ligação entre compra e lotes é garantida pelo caso de uso "Registrar compra".
 - **Alternativas consideradas:** Acquisition contendo os lotes — abrir uma garrafa alteraria a compra inteira, e o StoryWine precisaria referenciar uma entidade interna de outro agregado.
+- **Regras complementares (aprovadas em 18/11/2026):** presente recebido (`AcquisitionOrigin.gift`) não tem valor pago; data da compra não pode estar no futuro.
 - **Consequências:** abrir uma garrafa altera somente o lote. Regras que envolvem compra e lotes juntos (ex.: moedas compatíveis) ficam nos casos de uso.
 
 ## Regra de manutenção

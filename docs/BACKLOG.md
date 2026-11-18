@@ -30,7 +30,9 @@
 - [x] Passo 5 — `Person` e `Place` (ADR-022); catálogo estende `AggregateRoot`, com testes
 - [ ] Caso de uso "Cadastrar pessoa" (impede duplicatas pelo nome normalizado)
 - [x] Passo 6 — `Story` e `StoryWine` (ADR-016, ADR-025, ADR-030), com `Rating`, `Photo`, `Dish` e testes
-- [ ] Passo 7 — `CellarLot` e `Acquisition` (ADR-026)
+- [x] Passo 7 — `CellarLot` e `Acquisition` (ADR-026, ADR-031), com `CellarRemoval` e testes
+
+**Sprint 0 concluída em 18/11/2026.**
 
 ## Sprint 1 — Valor, tempo e dados reais (ver `PRODUCT_EVOLUTION_PLAN.md`)
 - [ ] Procedência dos dados (ADR-027)
