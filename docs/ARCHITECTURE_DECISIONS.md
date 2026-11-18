@@ -34,6 +34,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-028 | Aprovada | IA fora do MVP; app funciona sem serviços externos de IA | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-029 | Aprovada | Ordem de preferência de pesquisa: uva, região, produtor e rótulo; país associado à região | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-030 | Aprovada | Regras da Story: título opcional, destino bebido/presenteado, sem data futura, troca de vinho só fora da adega | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-031 | Aprovada | CellarLot e Acquisition como Aggregate Roots separados; lote referencia a compra pelo id | Detalhada abaixo. Aprovada em 18/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -207,6 +208,14 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - `Place` mantém identidade apenas pelo id (confirmação da ADR-022).
 - **Alternativas consideradas:** título obrigatório — atrito no registro rápido; permitir nota de vinho presenteado — a IA afirmaria uma avaliação inexistente; permitir troca de vinho em item da adega — quebraria a regra "Wine do StoryWine = Wine do lote" (ADR-019).
 - **Consequências:** `StoryWine` é uma entidade interna com id próprio; `Rating`, `Photo` e `Dish` são Value Objects.
+
+## ADR-031 — Limite entre Acquisition e CellarLot
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** a ADR-026 criou `Acquisition` e deixou pendente se ela contém os lotes ou os referencia.
+- **Decisão:** `CellarLot` e `Acquisition` são Aggregate Roots independentes. O lote referencia a compra pelo id. O `StoryWine` continua referenciando o lote (ADR-019). A ligação entre compra e lotes é garantida pelo caso de uso "Registrar compra".
+- **Alternativas consideradas:** Acquisition contendo os lotes — abrir uma garrafa alteraria a compra inteira, e o StoryWine precisaria referenciar uma entidade interna de outro agregado.
+- **Consequências:** abrir uma garrafa altera somente o lote. Regras que envolvem compra e lotes juntos (ex.: moedas compatíveis) ficam nos casos de uso.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

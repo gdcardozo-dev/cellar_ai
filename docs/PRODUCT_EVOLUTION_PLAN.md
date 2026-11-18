@@ -93,7 +93,6 @@
 
 - Limiares das regras de status de consumo.
 - Tipo de embalagem (lista).
-- Limite de agregado entre `Acquisition` e `CellarLot`.
 - Persistência: Firebase × banco local.
 - Conversão de moedas.
 - Público-alvo e modelo de negócio.

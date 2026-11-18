@@ -54,7 +54,7 @@ Os contextos são conceituais; a estrutura de pastas correspondente será defini
 - Agrupa um ou mais `CellarLot`: valor total pago (opcional, `Money` com moeda), data (pode ser desconhecida), origem (compra ou presente recebido) e fornecedor (opcional).
 - Exemplo: lote promocional com 4 vinhos diferentes por R$ 599,93 = 1 Acquisition → 4 CellarLots sem preço individual.
 - **Sem rateio automático:** o valor total nunca é dividido entre os lotes pelo sistema.
-- Limite de agregado (se Acquisition contém os lotes ou os referencia por id) será detalhado no passo de implementação.
+- **Limite de agregado (ADR-031):** Acquisition e CellarLot são Aggregate Roots separados; o lote referencia a compra pelo id.
 
 ### 4.3 Consumo e coordenação entre agregados — APROVADO (ADR-019)
 - **Abrir uma garrafa para beber sempre gera uma Story**, mesmo mínima (data e vinho). Coerente com o lema "Cada garrafa conta uma história".
