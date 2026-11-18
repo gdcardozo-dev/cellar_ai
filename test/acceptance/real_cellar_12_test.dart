@@ -71,6 +71,11 @@ void main() {
       expect(RealCellar12.wineOf('012').vintage, isA<UnknownVintage>());
     });
 
+    test('código de lote do 012 é guardado e não vira safra', () {
+      expect(RealCellar12.lotOf('012').batchCode, 'L2624426');
+      expect(RealCellar12.wineOf('012').vintage, isA<UnknownVintage>());
+    });
+
     test('os 12 vinhos são vinhos diferentes', () {
       final wines = RealCellar12.wines;
 

@@ -14,7 +14,7 @@ Produto orientado a experiências e memórias com vinho. O valor central está e
 - **Grape:** variedade de uva.
 - **Region:** região geográfica, potencialmente hierárquica.
 - **Vintage:** safra, com três estados: ano, sem safra declarada (NV) ou desconhecida (APROVADO — ver seção 5.1).
-- **Package:** tipo de embalagem e volume; modelagem final pendente. Não faz parte da identidade de Wine (APROVADO).
+- **Package:** tipo de embalagem (`PackageType`) e volume (`PackageSize`), no `CellarLot` (ADR-033). Não faz parte da identidade de Wine (APROVADO).
 - **GrapeComposition:** composição de uma ou mais uvas com percentuais opcionais.
 
 ## 3. Bounded contexts — APROVADOS (ADR-008, ADR-019)
@@ -48,7 +48,7 @@ Os contextos são conceituais; a estrutura de pastas correspondente será defini
 - 12 garrafas do mesmo vinho adquiridas juntas = 1 lote com quantidade 12.
 - **Invariante:** a quantidade disponível nunca fica negativa.
 - **Baixas avulsas** (garrafa quebrada, vinho estragado, garrafa presenteada sem história) são registradas no próprio lote, com motivo, e não geram Story.
-- **PROPOSTA (Sprint 1):** código de lote do fabricante (ex.: "L2624426") como texto opcional. Nunca é usado para inferir safra.
+- **APROVADO (ADR-033):** tipo de embalagem (garrafa, lata, bag-in-box, outro; padrão garrafa) e código de lote do fabricante (ex.: "L2624426") como texto opcional. O código nunca é usado para inferir safra.
 
 ### 4.4 Acquisition ("compra") — APROVADO (ADR-026)
 - Agrupa um ou mais `CellarLot`: valor total pago (opcional, `Money` com moeda), data (pode ser desconhecida), origem (compra ou presente recebido) e fornecedor (opcional).

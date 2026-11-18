@@ -36,15 +36,17 @@
 
 ## Sprint 1 — Valor, tempo e dados reais (ver `PRODUCT_EVOLUTION_PLAN.md`)
 - [x] Procedência dos dados: `Provenance` e `Sourced<T>` (ADR-027), com testes
-- [ ] Aplicar `Sourced` aos campos enriquecíveis do `Wine` (região, uvas, teor alcoólico) — avaliar junto com os fixtures
 - [x] `MarketValuation` com histórico e estimativa vigente (ADR-032), com testes
 - [x] `DrinkingWindow` e status de consumo por regras explícitas (ADR-032), com testes
-- [ ] Tipo de embalagem e código de lote do fabricante
+- [x] Tipo de embalagem e código de lote do fabricante (ADR-033), com testes
+
+**Sprint 1 concluída em 18/11/2026.**
 - [x] Fixtures dos 12 vinhos reais (`test/fixtures/`) + testes de aceite (`test/acceptance/`)
 - [x] `CollectionSummary`: lógica do painel simples (garrafas, países, custo pago e valor estimado por moeda)
 
 ## Sprints seguintes
 - [ ] Sprint 2 — Casos de uso com armazenamento em memória
+  - incluir: aplicar `Sourced` aos campos enriquecíveis do `Wine` junto com o cadastro (ADR-033)
 - [ ] Sprint 3 — Persistência (decidir Firebase × banco local)
 - [ ] Sprint 4 — Telas do MVP
 

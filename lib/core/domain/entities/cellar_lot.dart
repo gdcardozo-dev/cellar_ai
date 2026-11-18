@@ -1,9 +1,11 @@
 import '../foundation/aggregate_root.dart';
 import '../foundation/domain_exception.dart';
+import '../foundation/optional_text.dart';
 import '../value_objects/cellar_removal.dart';
 import '../value_objects/entity_id.dart';
 import '../value_objects/money.dart';
 import '../value_objects/package_size.dart';
+import '../value_objects/package_type.dart';
 
 /// Lote da adega: garrafas idênticas (mesmo vinho e tamanho) de uma
 /// compra (ADR-019, ADR-026, ADR-031).
@@ -22,11 +24,14 @@ class CellarLot extends AggregateRoot {
     required this.acquisitionId,
     required this.acquiredQuantity,
     PackageSize? packageSize,
+    this.packageType = PackageType.bottle,
     int? available,
     this.unitPrice,
+    String? batchCode,
     List<CellarRemoval> removals = const [],
   }) : packageSize = packageSize ?? PackageSize.standard,
        available = available ?? acquiredQuantity,
+       batchCode = cleanOptionalText(batchCode),
        removals = List.unmodifiable(removals) {
     if (acquiredQuantity < 1) {
       throw const DomainException('Um lote precisa de pelo menos 1 garrafa.');
@@ -47,6 +52,9 @@ class CellarLot extends AggregateRoot {
   /// Tamanho das garrafas (padrão: 750 ml).
   final PackageSize packageSize;
 
+  /// Tipo de embalagem (padrão: garrafa).
+  final PackageType packageType;
+
   /// Quantas garrafas chegaram neste lote.
   final int acquiredQuantity;
 
@@ -55,6 +63,10 @@ class CellarLot extends AggregateRoot {
 
   /// Preço por garrafa; nulo quando só o total da compra é conhecido.
   final Money? unitPrice;
+
+  /// Código de lote do fabricante (ex.: "L2624426"); nulo quando não
+  /// informado. Nunca é usado para inferir a safra.
+  final String? batchCode;
 
   /// Baixas avulsas (quebra, estrago, presente sem história). Imutável.
   final List<CellarRemoval> removals;
@@ -93,8 +105,10 @@ class CellarLot extends AggregateRoot {
       acquisitionId: acquisitionId,
       acquiredQuantity: acquiredQuantity,
       packageSize: packageSize,
+      packageType: packageType,
       available: available,
       unitPrice: unitPrice,
+      batchCode: batchCode,
       removals: removals ?? this.removals,
     );
   }

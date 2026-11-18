@@ -6,6 +6,7 @@ import 'package:cellar_ai/core/domain/value_objects/cellar_removal.dart';
 import 'package:cellar_ai/core/domain/value_objects/entity_id.dart';
 import 'package:cellar_ai/core/domain/value_objects/money.dart';
 import 'package:cellar_ai/core/domain/value_objects/package_size.dart';
+import 'package:cellar_ai/core/domain/value_objects/package_type.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -93,6 +94,37 @@ void main() {
       expect(l.unitPrice, isNull);
     });
 
+    test('embalagem padrão é garrafa, sem código de lote', () {
+      expect(lot().packageType, PackageType.bottle);
+      expect(lot().batchCode, isNull);
+    });
+
+    test('deve guardar tipo de embalagem e código de lote', () {
+      final l = CellarLot(
+        id: const EntityId('lote-2'),
+        wineId: insignia,
+        acquisitionId: grandCru,
+        acquiredQuantity: 1,
+        packageType: PackageType.bagInBox,
+        batchCode: ' L2624426 ',
+      );
+
+      expect(l.packageType, PackageType.bagInBox);
+      expect(l.batchCode, 'L2624426');
+    });
+
+    test('código de lote em branco é tratado como não informado', () {
+      final l = CellarLot(
+        id: const EntityId('lote-2'),
+        wineId: insignia,
+        acquisitionId: grandCru,
+        acquiredQuantity: 1,
+        batchCode: '   ',
+      );
+
+      expect(l.batchCode, isNull);
+    });
+
     test('deve recusar lote sem garrafas', () {
       expect(() => lot(quantity: 0), throwsA(isA<DomainException>()));
     });
@@ -106,6 +138,20 @@ void main() {
   group('CellarLot — retiradas', () {
     test('retirar para uma história reduz 1 garrafa', () {
       expect(lot().takeBottleForStory().available, 2);
+    });
+
+    test('retirada preserva embalagem e código de lote', () {
+      final l = CellarLot(
+        id: const EntityId('lote-2'),
+        wineId: insignia,
+        acquisitionId: grandCru,
+        acquiredQuantity: 2,
+        packageType: PackageType.can,
+        batchCode: 'L1',
+      ).takeBottleForStory();
+
+      expect(l.packageType, PackageType.can);
+      expect(l.batchCode, 'L1');
     });
 
     test('não deve alterar o lote original', () {

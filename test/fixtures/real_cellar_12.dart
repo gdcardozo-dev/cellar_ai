@@ -107,12 +107,14 @@ abstract final class RealCellar12 {
     _unknownPurchase('012'),
   ];
 
-  /// Um lote de 1 garrafa por vinho, sem preço individual.
+  /// Um lote de 1 garrafa por vinho, sem preço individual. O vinho 012
+  /// tem código de lote do fabricante.
   static final lots = [
     for (final id in ['001', '002', '003', '004'])
       _lot(id, acquisitionId: 'compra-grand-cru'),
-    for (final id in ['005', '006', '007', '008', '009', '010', '011', '012'])
+    for (final id in ['005', '006', '007', '008', '009', '010', '011'])
       _lot(id, acquisitionId: 'compra-$id'),
+    _lot('012', acquisitionId: 'compra-012', batchCode: 'L2624426'),
   ];
 
   /// Estimativas históricas de reposição (R$): sugestões de baixa
@@ -162,12 +164,17 @@ abstract final class RealCellar12 {
   static Acquisition _unknownPurchase(String id) =>
       Acquisition(id: EntityId('compra-$id'));
 
-  static CellarLot _lot(String id, {required String acquisitionId}) {
+  static CellarLot _lot(
+    String id, {
+    required String acquisitionId,
+    String? batchCode,
+  }) {
     return CellarLot(
       id: lotId(id),
       wineId: wineId(id),
       acquisitionId: EntityId(acquisitionId),
       acquiredQuantity: 1,
+      batchCode: batchCode,
     );
   }
 

@@ -36,6 +36,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-030 | Aprovada | Regras da Story: título opcional, destino bebido/presenteado, sem data futura, troca de vinho só fora da adega | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-031 | Aprovada | CellarLot e Acquisition como Aggregate Roots separados; lote referencia a compra pelo id | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-032 | Aprovada | Janela de consumo com status por regras explícitas; MarketValuation com histórico | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-033 | Aprovada | Tipo de embalagem e código de lote do fabricante no CellarLot; procedência no Wine adiada para a Sprint 2 | Detalhada abaixo. Aprovada em 18/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -234,6 +235,17 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 - **Decisão — MarketValuation:** estimativa com valor e moeda, tipo (reposição ou revenda), data de referência (pode ser desconhecida) e procedência. Ligada ao Wine pelo id. Histórico: nova estimativa não apaga a anterior; a vigente é a registrada mais recentemente para o vinho e o tipo.
 - **Alternativas consideradas:** categorias calculadas por IA — pouco explicáveis no MVP; valor de mercado como campo único do Wine — perderia histórico e procedência.
 - **Consequências:** regras testáveis e explicáveis ao usuário; o valor estimado da coleção multiplica a estimativa vigente pelas garrafas disponíveis.
+
+## ADR-033 — Embalagem, código de lote e adiamento da procedência no Wine
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** o cadastro deve suportar diferentes embalagens, e há garrafas com código de lote do fabricante (ex.: "L2624426").
+- **Decisão:**
+  - `PackageType` no `CellarLot`: garrafa (padrão), lata, bag-in-box e outro.
+  - Código de lote do fabricante como texto opcional no `CellarLot`. Nunca é usado para inferir safra.
+  - Aplicar `Sourced` aos campos enriquecíveis do `Wine` (região, uvas, teor alcoólico) fica para a Sprint 2, junto com o caso de uso de cadastro, para não alterar o `Wine` duas vezes.
+- **Alternativas consideradas:** tipo de embalagem no `Wine` — a embalagem pertence à unidade física, não ao catálogo (ADR-014).
+- **Consequências:** o vinho 012 da adega real registra o código "L2624426" com safra desconhecida.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.
