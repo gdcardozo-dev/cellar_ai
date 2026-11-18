@@ -18,14 +18,21 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-012 | Resolvida | Modelo de garrafas, lotes, Story-Wine e demais agregados | Resolvida pelas ADR-016, ADR-017 e ADR-019. |
 | ADR-013 | Aprovada | Hierarquia de documentação: fontes oficiais e histórico | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-014 | Aprovada | Identidade de Wine: Produtor + Nome comercial + Safra (ano, NV ou desconhecida) | Detalhada abaixo. Aprovada em 19/10/2026. |
-| ADR-015 | Aprovada | Catálogo de vinhos privado por usuário no MVP | Detalhada abaixo. Aprovada em 19/10/2026. |
+| ADR-015 | Aprovada | Catálogo de vinhos privado por usuário no MVP | Detalhada abaixo. Aprovada em 19/10/2026. Complementada pela ADR-024. |
 | ADR-016 | Aprovada | Story referencia vinhos por StoryWine; notas do momento e do vinho; ao menos um vinho por Story | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-017 | Aprovada | Person e Place como entidades; fotos e pratos como Value Objects; notas de 1 a 5 | Detalhada abaixo. Aprovada em 19/10/2026. |
 | ADR-018 | Aprovada | Commits de documentação de decisões aprovadas dispensam nova aprovação | Registrada no `CLAUDE.md`. Aprovada em 19/10/2026. |
-| ADR-019 | Aprovada | Limites de agregados, CellarLot e consumo sempre com Story | Detalhada abaixo. Aprovada em 12/11/2026. |
+| ADR-019 | Aprovada | Limites de agregados, CellarLot e consumo sempre com Story | Detalhada abaixo. Aprovada em 12/11/2026. Revisada parcialmente pelas ADR-025 e ADR-026. |
 | ADR-020 | Aprovada | Padrões técnicos: DomainException, Money em centavos com moeda, Vintage como sealed class | Detalhada abaixo. Aprovada em 12/11/2026. |
 | ADR-021 | Aprovada | Tipo do vinho como lista única opcional; regras de composição de uvas | Detalhada abaixo. Aprovada em 13/11/2026. |
 | ADR-022 | Aprovada | Person identificada pelo nome normalizado; Place com tipo e cidade opcionais | Detalhada abaixo. Aprovada em 14/11/2026. |
+| ADR-023 | Aprovada | Prioridade do produto: Histórias como identidade e Adega como porta de entrada, ambas no MVP | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-024 | Aprovada | Catálogo privado no MVP; sugestões de IA só entram após confirmação do usuário | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-025 | Aprovada | Presentear uma garrafa permite história opcional (revisa parcialmente a ADR-019) | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-026 | Aprovada | Acquisition: compra que agrupa lotes, com valor total e sem rateio automático (revisa parcialmente a ADR-019) | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-027 | Aprovada | Procedência dos dados: sugerido × confirmado; identidade sempre confirmada | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-028 | Aprovada | IA fora do MVP; app funciona sem serviços externos de IA | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-029 | Aprovada | Ordem de preferência de pesquisa: uva, região, produtor e rótulo; país associado à região | Detalhada abaixo. Aprovada em 18/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -131,6 +138,61 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - `Country`, `Grape`, `Producer` e `Region` passam a estender `AggregateRoot`, conforme a ADR-019.
 - **Alternativas consideradas:** Person identificada só pelo id — permitiria duplicatas silenciosas que distorcem "com quem mais compartilho vinho?"; mais dados de pessoas (contato, foto) — desnecessários e sensíveis; cadastro próprio de cidades — complexidade prematura.
 - **Consequências:** o caso de uso de cadastro de pessoa deve impedir duplicatas pelo nome normalizado. A detecção de duplicatas de lugares, se desejada, será decidida depois.
+
+## ADR-023 — Prioridade do produto no MVP
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** Contexto comum (ADR-023 a ADR-029): incorporação dos aprendizados da catalogação real de 12 garrafas (ver `docs/PRODUCT_EVOLUTION_PLAN.md`). O novo documento de produto prioriza inventário, valor da coleção e momento de consumo; a ADR-001 prioriza memórias.
+- **Decisão:** o MVP contém as duas jornadas. **Histórias** é a identidade do produto; **Adega** é a porta de entrada (o usuário começa catalogando e cada garrafa aberta vira uma história). A ADR-001 permanece válida.
+- **Alternativas consideradas:** só Histórias no MVP — não atende ao uso real de catalogação; só Adega — descaracteriza a proposta de valor.
+- **Consequências:** o escopo do MVP inclui lotes, compras, custo, estimativa de valor e janela de consumo, além de Histórias.
+
+## ADR-024 — Catálogo privado e sugestões de IA
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** o cadastro assistido sugere dados de referência; o documento pede separar catálogo global de dados privados.
+- **Decisão:** mantém-se a ADR-015 no MVP. Dados sugeridos por IA ou fontes externas só passam a integrar o catálogo privado após confirmação do usuário. Catálogo global compartilhado é evolução futura.
+- **Alternativas consideradas:** catálogo global já no MVP — deduplicação entre usuários, moderação e custo.
+- **Consequências:** o modelo de procedência (ADR-027) sustenta a separação entre sugerido e confirmado.
+
+## ADR-025 — Presente com história opcional
+
+- **Status:** Aprovada em 18/11/2026. Revisa parcialmente a ADR-019.
+- **Contexto:** a ADR-019 tratava garrafa doada como baixa avulsa sem Story.
+- **Decisão:** abrir para beber continua exigindo uma Story. Presentear uma garrafa permite registrar uma Story opcional; sem Story, é uma baixa avulsa com motivo "presente". Quebra e estrago continuam como baixas avulsas.
+- **Alternativas consideradas:** presente sempre com Story — atrito desnecessário; presente nunca com Story — perde memórias relevantes.
+- **Consequências:** o caso de uso de baixa por presente aceita uma Story opcional.
+
+## ADR-026 — Acquisition (compra)
+
+- **Status:** Aprovada em 18/11/2026. Revisa parcialmente a ADR-019, que havia descartado "compra com itens".
+- **Contexto:** compras reais incluem lotes promocionais de vinhos diferentes com valor total conhecido e sem preço individual (ex.: 4 vinhos por R$ 599,93).
+- **Decisão:** `Acquisition` agrupa um ou mais `CellarLot` e registra valor total pago (opcional, com moeda), data (pode ser desconhecida), origem (compra ou presente recebido) e fornecedor (opcional). O preço unitário do lote é opcional. Não há rateio automático do valor total.
+- **Alternativas consideradas:** ratear igualmente — inventa dado; exigir preço individual — impede registrar o caso real.
+- **Consequências:** custo da coleção é apresentado por compra e por moeda; lotes sem preço individual aparecem como parte de compra conjunta.
+
+## ADR-027 — Procedência dos dados
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** dados sugeridos por IA precisam ser distinguíveis dos confirmados, com origem e confiança.
+- **Decisão:** um Value Object de procedência acompanha os campos enriquecíveis: origem (usuário, sugestão de IA, fonte externa), confiança (baixa, média, alta), fonte, data do registro e confirmação. Campos de identidade do Wine (produtor, nome, safra) só existem confirmados. Campos de enriquecimento (região, uvas, teor alcoólico, janela de consumo, classificação, harmonização, avaliações da crítica, estimativas de valor) podem ficar como sugestão.
+- **Alternativas consideradas:** aceitar sugestões como fatos — viola a ADR-001 (não inventar); não guardar sugestões — perde o enriquecimento progressivo.
+- **Consequências:** interface e IA sempre distinguem fato de sugestão. Detalhamento técnico na Sprint 1.
+
+## ADR-028 — IA fora do MVP
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** serviços de IA são pagos; o documento exige funcionamento sem serviços externos de IA (ex.: relatório).
+- **Decisão:** o MVP funciona com cadastro manual e enriquecimento progressivo. Cadastro assistido por IA entra na próxima versão, encaixando-se no modelo de procedência.
+- **Alternativas consideradas:** IA no MVP — custo, dependência e risco de dados inventados antes de existir a camada de procedência.
+- **Consequências:** nenhuma dependência de serviço pago no MVP.
+
+## ADR-029 — Ordem de preferência de pesquisa
+
+- **Status:** Aprovada em 18/11/2026.
+- **Contexto:** a ordem foi definida em conversas anteriores, mas não estava registrada no repositório.
+- **Decisão:** a pesquisa de vinhos privilegia, nesta ordem: uva, região, produtor e rótulo. O país é apresentado associado à região.
+- **Consequências:** orienta a futura funcionalidade de pesquisa (próxima versão).
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.

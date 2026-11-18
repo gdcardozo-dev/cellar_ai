@@ -43,17 +43,25 @@ Os contextos são conceituais; a estrutura de pastas correspondente será defini
 
 **Consequência no código atual:** `Region` deixa de guardar o objeto `Country`, e `GrapeComposition` deixa de guardar o objeto `Grape`; ambos passam a guardar apenas o id.
 
-### 4.2 CellarLot — APROVADO (ADR-019)
-- Um lote representa **uma aquisição** de garrafas idênticas: Wine, `PackageSize`, quantidade adquirida, quantidade disponível, data, preço unitário (opcional) e origem (compra ou presente).
+### 4.2 CellarLot ("lote da adega") — APROVADO (ADR-019, ADR-026)
+- Um lote representa garrafas idênticas (mesmo Wine e `PackageSize`) de **uma compra** (`Acquisition`): quantidade adquirida, quantidade disponível e preço unitário (opcional).
 - 12 garrafas do mesmo vinho adquiridas juntas = 1 lote com quantidade 12.
 - **Invariante:** a quantidade disponível nunca fica negativa.
-- **Baixas avulsas** (garrafa quebrada, vinho estragado, garrafa doada) são registradas no próprio lote, com motivo, e não geram Story.
+- **Baixas avulsas** (garrafa quebrada, vinho estragado, garrafa presenteada sem história) são registradas no próprio lote, com motivo, e não geram Story.
+- **PROPOSTA (Sprint 1):** código de lote do fabricante (ex.: "L2624426") como texto opcional. Nunca é usado para inferir safra.
+
+### 4.4 Acquisition ("compra") — APROVADO (ADR-026)
+- Agrupa um ou mais `CellarLot`: valor total pago (opcional, `Money` com moeda), data (pode ser desconhecida), origem (compra ou presente recebido) e fornecedor (opcional).
+- Exemplo: lote promocional com 4 vinhos diferentes por R$ 599,93 = 1 Acquisition → 4 CellarLots sem preço individual.
+- **Sem rateio automático:** o valor total nunca é dividido entre os lotes pelo sistema.
+- Limite de agregado (se Acquisition contém os lotes ou os referencia por id) será detalhado no passo de implementação.
 
 ### 4.3 Consumo e coordenação entre agregados — APROVADO (ADR-019)
 - **Abrir uma garrafa para beber sempre gera uma Story**, mesmo mínima (data e vinho). Coerente com o lema "Cada garrafa conta uma história".
 - O caso de uso **"Registrar história"** cria a Story e, para cada StoryWine que veio da adega, baixa 1 unidade do `CellarLot` correspondente.
 - O caso de uso também garante que o Wine do StoryWine seja o mesmo Wine do lote referenciado.
 - Eventos de domínio (ex.: `BottleConsumed`) ficam para quando houver necessidade real; no MVP a coordenação é feita pelo caso de uso.
+- **Presente (ADR-025):** presentear uma garrafa permite registrar uma Story opcional; sem Story, é baixa avulsa com motivo "presente".
 
 ## 5. Entidades e Value Objects — DEFINIDOS
 Fundação revisada: `EntityId`, `Entity`, `AggregateRoot`.
@@ -65,6 +73,17 @@ Value Objects discutidos: `PackageSize`, `Vintage`, `AlcoholContent`, `Money`, `
 - **Validação:** entidades e Value Objects recusam dados inválidos lançando uma exceção de domínio própria (`DomainException`, que implementa `Exception`). Não se usa `assert` para regras de negócio (é desligado em builds de release) nem `ArgumentError` (que, por convenção do Dart, indica erro de programação). A camada de apresentação captura a exceção e mostra uma mensagem amigável.
 - **Money:** valor em **centavos (`int`)** + **código da moeda** (ISO 4217: `BRL`, `USD`, `ARS`...). Sem conversão entre moedas no MVP.
 - **Vintage:** `sealed class` com exatamente três casos — `VintageYear(ano)`, `NonVintage` e `UnknownVintage`. O compilador obriga todo código a tratar os três casos. Ano aceito entre 1800 e o ano atual.
+
+## 5.0.1 Procedência dos dados — APROVADO (ADR-027)
+- Campos enriquecíveis carregam procedência: origem (usuário, sugestão de IA, fonte externa), confiança (baixa, média, alta), fonte, data do registro e confirmação.
+- **Identidade do Wine (produtor, nome, safra) só existe confirmada.** Sugestões de IA para esses campos ficam no fluxo de cadastro, nunca no Wine.
+- Podem ficar como sugestão: região, uvas, teor alcoólico, janela de consumo, classificação, harmonização, avaliações da crítica e estimativas de valor.
+- Sugestões só passam ao catálogo privado após confirmação do usuário (ADR-024).
+
+## 5.0.2 Valor de mercado e janela de consumo — PROPOSTA (Sprint 1)
+- **MarketValuation:** valor e moeda, tipo (reposição ou revenda), data de referência (pode ser desconhecida), data do registro, fonte e confiança. Histórico: uma estimativa nova não apaga a anterior. Ligada ao Wine. Não se confunde com custo pago (Acquisition/CellarLot).
+- **DrinkingWindow:** ano inicial, pico (opcional) e ano limite, com procedência.
+- **Status de consumo**, calculado por regras explícitas: Pode esperar · Abrir agora · No melhor momento · Atenção à guarda · Sem informação. Os limiares exatos dependem de aprovação.
 
 ## 5.1 Identidade de Wine — APROVADA (ADR-014, ADR-015)
 - **Identidade:** dois registros representam o mesmo Wine quando têm o mesmo **Produtor + Nome comercial + Safra**.

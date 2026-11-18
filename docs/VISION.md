@@ -36,6 +36,14 @@ A IA interpreta dados de catálogo e registros pessoais para responder perguntas
 
 - **Wine Concierge:** interpretar cartas de vinho de restaurantes e sugerir harmonizações para entrada, prato principal e sobremesa.
 
+## Prioridade e MVP — APROVADOS (ADR-023)
+
+- **Histórias** é a identidade do produto; **Adega** é a porta de entrada.
+- O MVP ajuda o usuário a: saber quais vinhos possui; acompanhar custo e valor estimado da coleção; identificar o momento de consumo de cada garrafa; e registrar histórias quando uma garrafa é aberta ou presenteada.
+- Proposta de experiência: mais simples, intuitiva e pessoal que aplicativos de rede social de vinhos; linguagem acessível.
+- Dados confiáveis antes de respostas aparentemente completas: sugestões são sempre identificadas como tal (ADR-027).
+- Cadastro assistido por IA, relatório em PDF e recomendações por ocasião ficam para a próxima versão (ADR-028). Plano completo em `docs/PRODUCT_EVOLUTION_PLAN.md`.
+
 ## A definir
 
-Público-alvo, modelo de negócio e escopo do MVP ainda não foram revalidados sob a visão orientada a memórias. A versão anterior desses itens está em `docs/historico/VISION_v0.md`, apenas como referência.
+Público-alvo e modelo de negócio (há intenção de viabilidade comercial e monetização futura, ainda sem decisão). A versão anterior desses itens está em `docs/historico/VISION_v0.md`, apenas como referência.

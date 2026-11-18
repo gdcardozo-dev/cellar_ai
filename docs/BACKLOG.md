@@ -29,12 +29,24 @@
 - [ ] Caso de uso "Cadastrar vinho" (impede duplicatas no catálogo) — junto com a camada de aplicação
 - [x] Passo 5 — `Person` e `Place` (ADR-022); catálogo estende `AggregateRoot`, com testes
 - [ ] Caso de uso "Cadastrar pessoa" (impede duplicatas pelo nome normalizado)
-- [ ] Passo 6 — `Story` e `StoryWine`
-- [ ] `CellarLot`
+- [ ] Passo 6 — `Story` e `StoryWine` (inclui história opcional de presente, ADR-025)
+- [ ] Passo 7 — `CellarLot` e `Acquisition` (ADR-026)
+
+## Sprint 1 — Valor, tempo e dados reais (ver `PRODUCT_EVOLUTION_PLAN.md`)
+- [ ] Procedência dos dados (ADR-027)
+- [ ] `MarketValuation` (estimativas com fonte, data e confiança)
+- [ ] `DrinkingWindow` e status de consumo por regras explícitas (limiares a aprovar)
+- [ ] Tipo de embalagem e código de lote do fabricante
+- [ ] Fixtures dos 12 vinhos reais + testes de aceite (confirmar produtor × nome antes)
+
+## Sprints seguintes
+- [ ] Sprint 2 — Casos de uso com armazenamento em memória
+- [ ] Sprint 3 — Persistência (decidir Firebase × banco local)
+- [ ] Sprint 4 — Telas do MVP
 
 ## Pendências técnicas identificadas (aguardando decisão)
 - Flutter 3.47+ marca `package:flutter/material.dart` como obsoleto em favor do pacote `material_ui`; avaliar migração junto com a atualização da versão do Flutter (CI fixada em 3.44.6)
 - Dependências Freezed/JSON no `pubspec.yaml` sem uso no código
 - `lib/app/theme.dart` e `lib/design/typography.dart` não são utilizados
-- Botão da Home "Adicionar primeiro vinho" não reflete a jornada "Histórias"
+- Botão da Home "Adicionar primeiro vinho": reavaliar à luz da ADR-023 (Adega como porta de entrada) na Sprint 4
 - Branch `main` não recebe o trabalho da `develop` desde o início do domínio
