@@ -38,6 +38,7 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-032 | Aprovada | Janela de consumo com status por regras explícitas; MarketValuation com histórico | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-033 | Aprovada | Tipo de embalagem e código de lote do fabricante no CellarLot; procedência no Wine adiada para a Sprint 2 | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-034 | Aprovada | Pastas por camada: domínio, aplicação e infraestrutura; repositórios como contratos no domínio | Detalhada abaixo. Aprovada em 18/11/2026. |
+| ADR-035 | Aprovada | Procedência nos dados do Wine, GrapeBlend e casos de uso Cadastrar vinho e Revisar sugestão | Detalhada abaixo. Aprovada em 19/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -259,6 +260,19 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - Primeiro caso de uso: "Registrar história".
 - **Alternativas consideradas:** pastas por contexto (`catalog/`, `cellar/`, `stories/`) — melhor para projetos grandes, mas exigiria mover todo o código existente agora.
 - **Consequências:** a persistência da Sprint 3 deve oferecer transação para que salvar lotes e história seja atômico. Reavaliar a organização por contexto quando o app crescer.
+
+## ADR-035 — Procedência no Wine e cadastro de vinhos
+
+- **Status:** Aprovada em 19/11/2026.
+- **Contexto:** a ADR-033 adiou para a Sprint 2 a aplicação de `Sourced` aos campos enriquecíveis do `Wine`, junto com o caso de uso de cadastro.
+- **Decisão:**
+  - `Wine` passa a ter `region`, `grapes`, `alcoholContent` e `drinkingWindow` como `Sourced` (valor + procedência). Produtor, nome e safra continuam tipos simples, sempre confirmados.
+  - `GrapeBlend` (Value Object) concentra as regras de uvas (ADR-021) e exige ao menos uma uva; "uvas não informadas" é o campo vazio.
+  - Somente sugestões não confirmadas podem ser descartadas; substituir dado confirmado é responsabilidade de um futuro fluxo de edição.
+  - Caso de uso "Cadastrar vinho": recusa duplicatas pela identidade, com `DuplicateWineException` informando o vinho existente.
+  - Caso de uso "Revisar sugestão": confirmar ou descartar uma sugestão.
+- **Alternativas consideradas:** procedência em cada campo como atributos soltos — repetição e risco de inconsistência; permitir descartar dado confirmado — perda acidental de dados do usuário.
+- **Consequências:** a janela de consumo passa a estar ligada ao vinho (`consumptionIn`); o fluxo de cadastro assistido por IA (próxima versão) se apoia em "Revisar sugestão".
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.
