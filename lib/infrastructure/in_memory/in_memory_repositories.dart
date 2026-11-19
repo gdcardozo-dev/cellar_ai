@@ -1,7 +1,11 @@
+import '../../core/domain/entities/acquisition.dart';
 import '../../core/domain/entities/cellar_lot.dart';
+import '../../core/domain/entities/person.dart';
 import '../../core/domain/entities/story.dart';
 import '../../core/domain/entities/wine.dart';
+import '../../core/domain/repositories/acquisition_repository.dart';
 import '../../core/domain/repositories/cellar_lot_repository.dart';
+import '../../core/domain/repositories/person_repository.dart';
 import '../../core/domain/repositories/story_repository.dart';
 import '../../core/domain/repositories/wine_repository.dart';
 import '../../core/domain/value_objects/entity_id.dart';
@@ -66,5 +70,47 @@ class InMemoryWineRepository implements WineRepository {
   @override
   Future<void> save(Wine wine) async {
     _wines[wine.id] = wine;
+  }
+}
+
+/// Compras em memória.
+class InMemoryAcquisitionRepository implements AcquisitionRepository {
+  InMemoryAcquisitionRepository([Iterable<Acquisition> initial = const []]) {
+    for (final acquisition in initial) {
+      _acquisitions[acquisition.id] = acquisition;
+    }
+  }
+
+  final _acquisitions = <EntityId, Acquisition>{};
+
+  @override
+  Future<Acquisition?> findById(EntityId id) async => _acquisitions[id];
+
+  @override
+  Future<void> save(Acquisition acquisition) async {
+    _acquisitions[acquisition.id] = acquisition;
+  }
+}
+
+/// Pessoas em memória.
+class InMemoryPersonRepository implements PersonRepository {
+  final _people = <EntityId, Person>{};
+
+  @override
+  Future<Person?> findById(EntityId id) async => _people[id];
+
+  @override
+  Future<Person?> findByNormalizedName(String normalizedName) async {
+    for (final person in _people.values) {
+      if (person.normalizedName == normalizedName) {
+        return person;
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<void> save(Person person) async {
+    _people[person.id] = person;
   }
 }

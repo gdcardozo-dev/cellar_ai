@@ -45,12 +45,14 @@
 - [x] `CollectionSummary`: lógica do painel simples (garrafas, países, custo pago e valor estimado por moeda)
 
 ## Sprints seguintes
-- [ ] Sprint 2 — Casos de uso com armazenamento em memória (ADR-034)
+- [x] Sprint 2 — Casos de uso com armazenamento em memória (ADR-034)
   - [x] Repositórios (contratos) e implementações em memória
   - [x] Caso de uso "Registrar história" (cria a Story e baixa os lotes, tudo ou nada)
   - [x] Procedência no `Wine` e `GrapeBlend` (ADR-035)
   - [x] Casos de uso "Cadastrar vinho" (sem duplicatas) e "Revisar sugestão" (ADR-035)
-  - [ ] Demais casos de uso: registrar compra, baixa avulsa, cadastrar pessoa
+  - [x] "Registrar compra" (ADR-037), "Baixa avulsa" e "Cadastrar pessoa" (ADR-022)
+
+**Sprint 2 concluída em 19/11/2026.**
 - [ ] Sprint 3 — Persistência (decidir Firebase × banco local), com transação para operações que salvam mais de um agregado
 - [ ] Sprint 4 — Telas do MVP
 
