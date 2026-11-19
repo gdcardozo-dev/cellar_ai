@@ -7,7 +7,8 @@ import 'grape_composition.dart';
 /// Regras: ao menos uma uva; a mesma uva não aparece duas vezes; a soma
 /// dos percentuais conhecidos não passa de 100%.
 final class GrapeBlend {
-  GrapeBlend(List<GrapeComposition> grapes) : grapes = List.unmodifiable(grapes) {
+  GrapeBlend(List<GrapeComposition> grapes)
+    : grapes = List.unmodifiable(grapes) {
     if (this.grapes.isEmpty) {
       throw const DomainException('Informe ao menos uma uva.');
     }
