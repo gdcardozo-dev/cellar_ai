@@ -39,6 +39,8 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
 | ADR-033 | Aprovada | Tipo de embalagem e código de lote do fabricante no CellarLot; procedência no Wine adiada para a Sprint 2 | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-034 | Aprovada | Pastas por camada: domínio, aplicação e infraestrutura; repositórios como contratos no domínio | Detalhada abaixo. Aprovada em 18/11/2026. |
 | ADR-035 | Aprovada | Procedência nos dados do Wine, GrapeBlend e casos de uso Cadastrar vinho e Revisar sugestão | Detalhada abaixo. Aprovada em 19/11/2026. |
+| ADR-036 | Aprovada | Modo de trabalho por sprint; app publicado na web pela CI; repositório privado | Detalhada abaixo. Aprovada em 19/11/2026. |
+| ADR-037 | Aprovada | Regras de "Registrar compra": moedas compatíveis, lotes de presente sem preço, ao menos um lote | Detalhada abaixo. Aprovada em 19/11/2026. |
 
 ## ADR-013 — Hierarquia de documentação
 
@@ -273,6 +275,26 @@ Status: **Aprovada**, **Direção adotada**, **Proposta**, **Adiada**, **Em aber
   - Caso de uso "Revisar sugestão": confirmar ou descartar uma sugestão.
 - **Alternativas consideradas:** procedência em cada campo como atributos soltos — repetição e risco de inconsistência; permitir descartar dado confirmado — perda acidental de dados do usuário.
 - **Consequências:** a janela de consumo passa a estar ligada ao vinho (`consumptionIn`); o fluxo de cadastro assistido por IA (próxima versão) se apoia em "Revisar sugestão".
+
+## ADR-036 — Modo de trabalho por sprint e prévia web
+
+- **Status:** Aprovada em 19/11/2026.
+- **Contexto:** o ritmo de aprovação por passo foi adequado à fundação do domínio, mas encarece as etapas técnicas restantes até o MVP.
+- **Decisão:**
+  - O responsável aprova o plano de cada sprint; passos técnicos são executados em sequência, com commit após CI verde.
+  - Pausa obrigatória somente para regra de negócio nova, decisão de produto, dependência nova, exclusão ou refatoração grande.
+  - A CI passará a gerar a versão web do app para visualização; o repositório é privado, o que condiciona a forma de publicação (ver pacote de decisões técnicas).
+- **Consequências:** `CLAUDE.md` atualizado; estimativa de 8 a 12 interações até o MVP.
+
+## ADR-037 — Regras de "Registrar compra"
+
+- **Status:** Aprovada em 19/11/2026.
+- **Decisão:**
+  - Quando a compra tem valor total e um lote tem preço unitário, as moedas devem ser iguais.
+  - Uma compra registrada tem ao menos um lote; todos os lotes apontam para a compra e para vinhos existentes no catálogo.
+  - Lotes de um presente recebido não têm preço unitário (coerente com a ADR-031: presente não tem valor pago).
+  - Se qualquer regra falhar, nada é salvo.
+- **Alternativas consideradas:** moedas livres — geraria somas impossíveis no resumo financeiro.
 
 ## Regra de manutenção
 Registrar novas decisões com status, contexto, alternativas, consequências e data. Não transformar propostas em decisões aprovadas sem confirmação do responsável.
