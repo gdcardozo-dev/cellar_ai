@@ -1,44 +1,33 @@
-# cellar_ai
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
 # 🍷 Cellar AI
 
-Cellar AI é um assistente inteligente para amantes do vinho.
+**Cada garrafa conta uma história.**
 
-O projeto tem como objetivo ajudar usuários a organizar suas adegas, registrar degustações, descobrir novos rótulos e tomar melhores decisões sobre vinho utilizando Inteligência Artificial.
+Cellar AI é um companheiro inteligente para preservar, conectar e redescobrir suas experiências e memórias com vinho.
 
 ## Status
 
-🚧 Em desenvolvimento
+🚧 Sprint 0 — fundação do domínio e Domain Blueprint.
 
 ## Tecnologias
 
-* Flutter
-* Firebase
-* Dart
-* GitHub
-* GitHub Copilot
-* OpenAI (futuramente)
+- Flutter / Dart
+- Firebase (planejado)
 
 ## Documentação
 
-A documentação do projeto está disponível na pasta `/docs`.
+| Documento | Conteúdo |
+|---|---|
+| [`docs/VISION.md`](docs/VISION.md) | Visão do produto |
+| [`docs/DOMAIN_BLUEPRINT.md`](docs/DOMAIN_BLUEPRINT.md) | Modelo de domínio (fonte oficial) |
+| [`docs/ARCHITECTURE_DECISIONS.md`](docs/ARCHITECTURE_DECISIONS.md) | Registro de decisões de arquitetura |
+| [`docs/QUESTIONS_THE_AI_MUST_ANSWER.md`](docs/QUESTIONS_THE_AI_MUST_ANSWER.md) | Perguntas que orientam o modelo |
+| [`docs/BACKLOG.md`](docs/BACKLOG.md) | Backlog e pendências |
+| [`docs/historico/`](docs/historico/) | Rascunhos anteriores, apenas como referência |
+
+## Branches
+
+O desenvolvimento ocorre na branch `develop`.
 
 ## Licença
 
-Definiremos a licença quando o MVP estiver concluído.
+A definir.

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
-import 'theme.dart';
+import 'package:cellar_ai/design/theme/light_theme.dart';
+import 'package:cellar_ai/features/home/presentation/pages/home_page.dart';
 
-class CellarAIApp extends StatelessWidget {
-  const CellarAIApp({super.key});
+class CellarApp extends StatelessWidget {
+  const CellarApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cellar AI',
       debugShowCheckedModeBanner: false,
-      theme: CellarTheme.light(),
+      theme: CellarLightTheme.theme,
       home: const HomePage(),
     );
   }
